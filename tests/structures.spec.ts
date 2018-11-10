@@ -1,0 +1,35 @@
+// tslint:disable:no-unused-expression
+import { expect } from 'chai';
+import 'mocha';
+import {
+    PackageModel, LevelEnum,
+    LernaModel, TsConfigModel, ModelModel, ControllerModel, IndexModel
+} from '../src/models';
+import { join } from 'path';
+import { PackageStructureCompiler, ProjectStructureCompiler } from '../src/utils';
+
+describe.only('Structure proxies', () => {
+    const projectName = 'coffeecoin';
+    const ccName = 'test';
+    before(async () => {
+        // nothing yet
+    });
+
+    it('should create root project', async () => {
+        let structure = new ProjectStructureCompiler(projectName);
+
+        await structure.save();
+    });
+
+    it('should create package project', async () => {
+        let structure = new PackageStructureCompiler(projectName, ccName);
+
+        await structure.save();
+    });
+
+    it('should create package project', async () => {
+        let structure = new PackageStructureCompiler(projectName, 'token');
+
+        await structure.save();
+    });
+});
