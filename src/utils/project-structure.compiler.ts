@@ -10,6 +10,12 @@ export class ProjectStructureCompiler {
     constructor(public projectName: string) {
         this.rootPackage = new PackageModel(projectName, LevelEnum.ROOT, projectName,
             [{
+                name: 'install',
+                value: 'npm-run-all -s lerna:install'
+            }, {
+                name: 'lerna:install',
+                value: 'lerna bootstrap'
+            }, {
                 name: 'env:restart',
                 value: './node_modules/@worldsibu/convector-tool-dev-env/scripts/restart.sh'
             },
@@ -35,6 +41,9 @@ export class ProjectStructureCompiler {
                 }, {
                     name: 'fabric-client',
                     value: '^1.1.2'
+                }, {
+                    name: 'npm-run-all',
+                    value: '^4.1.3'
                 }
             ]);
         this.rootLerna = new LernaModel(projectName, projectName);

@@ -10,11 +10,35 @@ export class PackageStructureCompiler {
     index: IndexModel;
 
     constructor(public ccName: string, public projectName?: string) {
+        let className = ccName.match(/[a-z]+/gi)
+            .map(function (word) {
+                return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+            })
+            .join('');
+
         this.rootPackage = new PackageModel(ccName, LevelEnum.PACKAGE, projectName,
-            null, [{
-                name: '@types/node',
-                value: '^10.12.5'
-            }], [
+            [
+                {
+                    name: 'clean',
+                    value: 'rimraf dist client'
+                },
+                {
+                    name: 'build',
+                    value: 'npm run clean && npm run client:generate && tsc'
+                },
+                {
+                    name: 'prepare',
+                    value: 'npm run build'
+                },
+                {
+                    name: 'test',
+                    value: 'npm run build && mocha -r ts-node/register tests/*.spec.ts --reporter spec'
+                },
+                {
+                    name: 'client:generate',
+                    value: `generate-controller-interface -c ${className}Controller`
+                }
+            ], [
                 {
                     name: 'yup',
                     value: '^0.26.6'
@@ -25,10 +49,30 @@ export class PackageStructureCompiler {
                     name: '@worldsibu/convector-core-model',
                     value: '^1.2.0'
                 }, {
-                    name: 'worldsibu/convector-core-controller',
+                    name: '@worldsibu/convector-core-controller',
                     value: '^1.2.0'
                 }
+            ], [{
+                name: '@types/node',
+                value: '^10.12.5'
+            }, {
+                name: 'rimraf',
+                value: '^2.6.2'
+            }, {
+                name: 'mocha',
+                value: '^5.0.3'
+            }, {
+                name: 'chai',
+                value: '^4.1.2'
+            }, {
+                name: '@types/mocha',
+                value: '^5.2.5'
+            }, {
+                name: '@types/chai',
+                value: '^4.1.4'
+            }
             ]);
+
         this.rootTsConfig = new TsConfigModel(ccName, LevelEnum.PACKAGE, projectName);
         this.model = new ModelModel(ccName, projectName);
         this.controller = new ControllerModel(ccName, projectName);
