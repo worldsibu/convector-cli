@@ -44,5 +44,13 @@
     "typescript": "^2.9.2"
   },
   "author": "WorldSibu",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/worldsibu/convector-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/worldsibu/convector-cli/issues"
+  },
+  "homepage": "https://github.com/worldsibu/convector-cli#readme"
 }
