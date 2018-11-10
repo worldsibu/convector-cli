@@ -5,7 +5,8 @@ import {
     PackageModel, LevelEnum,
     LernaModel, TsConfigModel, ModelModel, ControllerModel, IndexModel
 } from '../src/models';
-import { join } from 'path';
+
+// TODO: FIX AFTER REFACTOR OF PACKAGES 
 
 describe('Root Package', () => {
     const projectName = 'coffeecoin';
@@ -16,7 +17,7 @@ describe('Root Package', () => {
 
     it('should create a root `package.json` file', async () => {
         let rootPackage = new PackageModel(
-            projectName, projectName, LevelEnum.ROOT,
+            projectName, LevelEnum.ROOT, projectName,
             [{
                 name: 'env:restart',
                 value: './node_modules/@worldsibu/convector-tool-dev-env/scripts/restart.sh'
@@ -54,18 +55,18 @@ describe('Root Package', () => {
     });
 
     it('should create a root `tsconfig.json` file', async () => {
-        let rootLerna = new TsConfigModel(projectName, projectName, LevelEnum.ROOT);
+        let rootLerna = new TsConfigModel(projectName, LevelEnum.ROOT, projectName);
         await rootLerna.save();
     });
 
     it('should create a package `tsconfig.json` file for `chaincode` project', async () => {
-        let rootLerna = new TsConfigModel(projectName, ccName, LevelEnum.PACKAGE);
+        let rootLerna = new TsConfigModel(ccName, LevelEnum.PACKAGE, projectName);
         await rootLerna.save();
     });
 
     it('should create a package `package.json` file for `chaincode` project', async () => {
         let rootPackage = new PackageModel(
-            projectName, ccName, LevelEnum.PACKAGE,
+            ccName, LevelEnum.PACKAGE, projectName,
             null, [{
                 name: '@types/node',
                 value: '^10.12.5'
@@ -88,17 +89,17 @@ describe('Root Package', () => {
     });
 
     it('should create a `model` file', async () => {
-        let modelTest = new ModelModel(projectName, 'test');
+        let modelTest = new ModelModel('test', projectName);
         await modelTest.save();
     });
 
     it('should create a `controller` file', async () => {
-        let modelTest = new ControllerModel(projectName, 'test');
+        let modelTest = new ControllerModel('test', projectName);
         await modelTest.save();
     });
 
     it('should create an `index` file', async () => {
-        let modelTest = new IndexModel(projectName, 'test');
+        let modelTest = new IndexModel('test', projectName);
         await modelTest.save();
     });
 
