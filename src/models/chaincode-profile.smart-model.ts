@@ -1,8 +1,11 @@
-import { SmartModel, PairString, LevelEnum } from '.';
+import { PairString, LevelEnum } from '.';
 import { join } from 'path';
 import { SysWrapper } from '../utils/sysWrapper';
+import { IDiskFile } from './IDiskFile.model';
+import { SmartModel } from './smartModel';
+import { Utils } from '../utils';
 
-export class PackageModel extends SmartModel {
+export class ChaincodeProfileModel extends SmartModel {
     /**
      * Initialize a package file
      * @param projectName Baseline name, if working with root, it's the same as `name`
@@ -11,11 +14,8 @@ export class PackageModel extends SmartModel {
      */
     constructor(
         public name: string,
-        public level: LevelEnum,
-        public projectName: string,
-        public scripts?: PairString[],
-        public dependencies?: PairString[],
-        public devDependencies?: PairString[]) {
+        public orgName: string,
+        public projectName?: string) {
         super(name, projectName);
     }
 
@@ -29,9 +29,9 @@ export class PackageModel extends SmartModel {
         await SysWrapper.createFileFromTemplate(
             this.filePath,
             {
-                name: `${this.name}`,
-                scripts: this.scripts, dependencies: this.dependencies,
-                devDependencies: this.devDependencies
+                org: this.orgName,
+                chaincodeFolder: `${this.name}-cc`,
+                className: Utils.toPascalCase(this.name)
             }, this.templateFile);
     }
 
@@ -39,17 +39,11 @@ export class PackageModel extends SmartModel {
      * Static template file to be used.
      */
     get templateFile() {
-        if (this.level === LevelEnum.ROOT) {
-            return join(__dirname, '../../templates/_package.json.ejs');
-        } else {
-            return join(__dirname, '../../templates/_package.cc.json.ejs');
-        }
+        return join(__dirname, '../../templates/_chaincode.config.json.ejs');
     }
 
     /** Actual file Path for the object. */
     get filePath() {
-        return this.level === LevelEnum.ROOT ?
-            `${this.projectRoot}/package.json`
-            : `${this.projectRoot}/packages/${this.name}-cc/package.json`;
+        return `${this.projectRoot}/${this.orgName}.${this.name}.config.json`;
     }
 }

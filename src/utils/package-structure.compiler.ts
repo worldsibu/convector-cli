@@ -1,6 +1,10 @@
-import { PackageModel, LernaModel, TsConfigModel, LevelEnum, ModelModel, ControllerModel, IndexModel } from '../models';
+import {
+    PackageModel, TsConfigModel, LevelEnum, ModelModel,
+    ControllerModel, IndexModel, ChaincodeProfileModel
+} from '../models';
 import { SysWrapper } from './sysWrapper';
 import { join } from 'path';
+import { Utils } from '.';
 
 export class PackageStructureCompiler {
     rootPackage: PackageModel;
@@ -8,13 +12,11 @@ export class PackageStructureCompiler {
     model: ModelModel;
     controller: ControllerModel;
     index: IndexModel;
+    ccProfileOrg1: ChaincodeProfileModel;
+    ccProfileOrg2: ChaincodeProfileModel;
 
     constructor(public ccName: string, public projectName?: string) {
-        let className = ccName.match(/[a-z]+/gi)
-            .map(function (word) {
-                return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
-            })
-            .join('');
+        let className = Utils.toPascalCase(ccName);
 
         this.rootPackage = new PackageModel(ccName, LevelEnum.PACKAGE, projectName,
             [
@@ -77,8 +79,14 @@ export class PackageStructureCompiler {
         this.model = new ModelModel(ccName, projectName);
         this.controller = new ControllerModel(ccName, projectName);
         this.index = new IndexModel(ccName, projectName);
+
+        this.ccProfileOrg1 = new ChaincodeProfileModel(ccName, 'org1', projectName);
+        this.ccProfileOrg2 = new ChaincodeProfileModel(ccName, 'org2', projectName);
     }
 
+    /**
+     * Provision everything.
+     */
     async save() {
         this.safePathCheck()
             .then(() => {
@@ -88,7 +96,9 @@ export class PackageStructureCompiler {
                     this.rootTsConfig.save(),
                     this.model.save(),
                     this.controller.save(),
-                    this.index.save()
+                    this.index.save(),
+                    this.ccProfileOrg1.save(),
+                    this.ccProfileOrg2.save()
                 ]);
             })
             .catch((ex) => {
@@ -97,6 +107,10 @@ export class PackageStructureCompiler {
             });
     }
 
+    /**
+     * Check if current folder is suitable for a chaincode package
+     * generation.
+     */
     async safePathCheck() {
         if (!this.projectName) {
             // generating a package with no project

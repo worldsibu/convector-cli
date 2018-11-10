@@ -7,3 +7,4 @@ export * from './tsconfig.smart-model';
 export * from './model.smart-model';
 export * from './controller.smart-model';
 export * from './index.smart-model';
+export * from './chaincode-profile.smart-model';

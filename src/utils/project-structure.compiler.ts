@@ -13,15 +13,49 @@ export class ProjectStructureCompiler {
                 name: 'install',
                 value: 'npm-run-all -s lerna:install'
             }, {
-                name: 'lerna:install',
-                value: 'lerna bootstrap'
-            }, {
                 name: 'env:restart',
                 value: './node_modules/@worldsibu/convector-tool-dev-env/scripts/restart.sh'
             },
             {
                 name: 'env:clean',
                 value: './node_modules/@worldsibu/convector-tool-dev-env/scripts/clean.sh'
+            },
+            // Convector Chaincode Manager
+            // $1: chaincode name
+            // $2: version
+            {
+                name: 'cc:start',
+                // tslint:disable-next-line:max-line-length
+                value: 'f() { npm-run-all -s \\"cc:package -- $1 org1\\" \\"cc:install -- $1 $2 org1\\" \\"cc:install -- $1 $2 org2\\" \\"cc:instantiate -- $1 $2 org1\\"; }; f'
+            },
+            {
+                name: 'cc:upgrade',
+                // tslint:disable-next-line:max-line-length
+                value: 'f() { npm-run-all -s \\"cc:package -- $1 org1\\" \\"cc:install -- org1 $1\\" \\"cc:install -- $1 org2\\" \\"cc:upgradePerOrg -- $1\\"; }; f'
+            },
+            {
+                name: '===================INTERNALS===================',
+                value: '===================NO NEED TO CALL THEM DIRECTLY==================='
+            }, {
+                name: 'lerna:install',
+                value: 'lerna bootstrap'
+            }, {
+                name: 'lerna:build',
+                value: 'lerna run build'
+            },
+            {
+                name: 'cc:package',
+                // tslint:disable-next-line:max-line-length
+                value: 'f() { npm run lerna:build; chaincode-manager --config ./$2.$1.config.json --output ./chaincode package; }; f'
+            }, {
+                name: 'cc:install',
+                value: 'f() { chaincode-manager --config ./$3.$1.config.json install ./chaincode $1 $2; }; f'
+            }, {
+                name: 'cc:instantiate',
+                value: 'f() { chaincode-manager --config ./$3.$1.config.json instantiate $1 $2; }; f'
+            }, {
+                name: 'cc:upgradePerOrg',
+                value: 'f() { chaincode-manager --config ./org1.chaincode.config.json upgrade $1; }; f'
             }], null, [
                 {
                     name: 'lerna',
@@ -37,10 +71,10 @@ export class ProjectStructureCompiler {
                     value: '^1.2.0'
                 }, {
                     name: 'fabric-ca-client',
-                    value: '^1.1.2'
+                    value: '~1.1.2'
                 }, {
                     name: 'fabric-client',
-                    value: '^1.1.2'
+                    value: '~1.1.2'
                 }, {
                     name: 'npm-run-all',
                     value: '^4.1.3'

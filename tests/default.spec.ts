@@ -40,10 +40,10 @@ describe('Root Package', () => {
                     value: '^1.2.0'
                 }, {
                     name: 'fabric-ca-client',
-                    value: '^1.1.2'
+                    value: '~1.1.2'
                 }, {
                     name: 'fabric-client',
-                    value: '^1.1.2'
+                    value: '~1.1.2'
                 }
             ]);
         await rootPackage.save();
