@@ -1,0 +1,19 @@
+import {
+  Controller,
+  ConvectorController,
+  Invokable,
+  Param
+} from '@worldsibu/convector-core-controller';
+
+import { <%= className %> } from './<%= name %>.model';
+
+@Controller('<%= name %>')
+export class <%= className %>Controller extends ConvectorController {
+  @Invokable()
+  public async create(
+    @Param(<%= className %>)
+    <%= name %>: <%= className %>
+  ) {
+    await <%= name %>.save();
+  }
+}
