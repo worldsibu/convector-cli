@@ -1,13 +1,15 @@
 import { IDiskFile } from './IDiskFile.model';
 import { join } from 'path';
 import { SysWrapper } from '../utils/sysWrapper';
+import { SmartModel } from './smartModel';
 
 /** Index exporter compiler object. */
-export class IndexModel implements IDiskFile {
-    
-    constructor(public projectName,
-        public name: string) {
+export class IndexModel extends SmartModel {
 
+    constructor(
+        public name: string,
+        public projectName?: string) {
+        super(name, projectName);
     }
 
     recompile() {
@@ -18,7 +20,6 @@ export class IndexModel implements IDiskFile {
         await SysWrapper.createFileFromTemplate(
             this.filePath,
             {
-                projectName: this.projectName,
                 name: this.name,
                 className: this.className
             }, this.templateFile);
@@ -42,6 +43,6 @@ export class IndexModel implements IDiskFile {
 
     /** Actual file Path for the object. */
     get filePath() {
-        return join(process.cwd(), `./${this.projectName}/packages/${this.name}-cc/src/index.ts`);
+        return `${this.projectRoot}/packages/${this.name}-cc/src/index.ts`;
     }
 }

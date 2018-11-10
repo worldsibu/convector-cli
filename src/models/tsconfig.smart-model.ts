@@ -2,17 +2,19 @@ import { PairString, LevelEnum } from '.';
 import { join } from 'path';
 import { SysWrapper } from '../utils/sysWrapper';
 import { IDiskFile } from './IDiskFile.model';
+import { SmartModel } from './smartModel';
 
-export class TsConfigModel implements IDiskFile {
+export class TsConfigModel extends SmartModel {
     /**
      * Initialize a package file
      * @param projectName Baseline name, if working with root, it's the same as `name`
      * @param name Name of the package
      * @param level Type of package to create (root level or package level)
      */
-    constructor(public projectName,
-        public name: string, public level: LevelEnum) {
-
+    constructor(
+        public name: string, public level: LevelEnum,
+        public projectName?: string) {
+        super(name, projectName);
     }
 
     /** Not implemented. */
@@ -42,7 +44,7 @@ export class TsConfigModel implements IDiskFile {
     /** Actual file Path for the object. */
     get filePath() {
         return this.level === LevelEnum.ROOT ?
-            join(process.cwd(), `./${this.projectName}/tsconfig.json`)
-            : join(process.cwd(), `./${this.projectName}/packages/${this.name}-cc/tsconfig.json`);
+            `${this.projectRoot}/tsconfig.json`
+            : `${this.projectRoot}/packages/${this.name}-cc/tsconfig.json`;
     }
 }

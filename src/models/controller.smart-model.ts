@@ -1,12 +1,14 @@
 import { IDiskFile } from './IDiskFile.model';
 import { join } from 'path';
 import { SysWrapper } from '../utils/sysWrapper';
+import { SmartModel } from './smartModel';
 
 /** Controller compiler object. */
-export class ControllerModel implements IDiskFile {
-    constructor(public projectName,
-        public name: string) {
-
+export class ControllerModel extends SmartModel {
+    constructor(
+        public name: string,
+        public projectName?: string) {
+        super(name, projectName);
     }
 
     recompile() {
@@ -18,7 +20,6 @@ export class ControllerModel implements IDiskFile {
         await SysWrapper.createFileFromTemplate(
             this.filePath,
             {
-                projectName: this.projectName,
                 name: this.name,
                 className: this.className
             }, this.templateFile);
@@ -42,6 +43,6 @@ export class ControllerModel implements IDiskFile {
 
     /** Actual file Path for the object. */
     get filePath() {
-        return join(process.cwd(), `./${this.projectName}/packages/${this.name}-cc/src/${this.name}.controller.ts`);
+        return `${this.projectRoot}/packages/${this.name}-cc/src/${this.name}.controller.ts`;
     }
 }

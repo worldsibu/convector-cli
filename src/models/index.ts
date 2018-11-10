@@ -1,3 +1,4 @@
+export * from './smartModel';
 export * from './level.enum';
 export * from './pairString.model';
 export * from './package.smart-model';

@@ -2,7 +2,7 @@ import { IDiskFile } from './IDiskFile.model';
 import { join } from 'path';
 import { SysWrapper } from '../utils/sysWrapper';
 
-export class LernaModel implements IDiskFile {
+export class LernaModel  {
     constructor(public projectName,
         public name: string) {
 

@@ -65,11 +65,15 @@ export module SysWrapper {
       } else {
         const store = memFs.create();
         const editor = memFsEditor.create(store);
-        let file = editor.read(filePath);
-        if (!file) {
-          rejected('Empty or not found file.');
+        try {
+          let file = editor.read(filePath);
+          if (!file) {
+            rejected('Empty or not found file.');
+          }
+          fulfilled(file);
+        } catch (ex) {
+          rejected(ex);
         }
-        fulfilled(file);
       }
     });
   }

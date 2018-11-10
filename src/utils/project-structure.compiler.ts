@@ -1,4 +1,6 @@
 import { PackageModel, LernaModel, TsConfigModel, LevelEnum } from '../models';
+import { SysWrapper } from './sysWrapper';
+import { join } from 'path';
 
 export class ProjectStructureCompiler {
     rootPackage: PackageModel;
@@ -6,7 +8,7 @@ export class ProjectStructureCompiler {
     rootTsConfig: TsConfigModel;
 
     constructor(public projectName: string) {
-        this.rootPackage = new PackageModel(projectName, projectName, LevelEnum.ROOT,
+        this.rootPackage = new PackageModel(projectName, LevelEnum.ROOT, projectName,
             [{
                 name: 'env:restart',
                 value: './node_modules/@worldsibu/convector-tool-dev-env/scripts/restart.sh'
@@ -36,14 +38,21 @@ export class ProjectStructureCompiler {
                 }
             ]);
         this.rootLerna = new LernaModel(projectName, projectName);
-        this.rootTsConfig = new TsConfigModel(projectName, projectName, LevelEnum.ROOT);
+        this.rootTsConfig = new TsConfigModel(projectName, LevelEnum.ROOT, projectName);
     }
 
     async save() {
         return Promise.all([
             this.rootPackage.save(),
             this.rootLerna.save(),
-            this.rootTsConfig.save()
+            this.rootTsConfig.save(),
+            this.breadcrumb()
         ]);
+    }
+
+    async breadcrumb() {
+        return SysWrapper.createFile(join(process.cwd(), `./${this.projectName}/.convector`),
+            `This is a project created with Convector CLI. 
+        For more information https://github.com/worldsibu/convector-cli`);
     }
 }

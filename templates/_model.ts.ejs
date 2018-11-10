@@ -10,7 +10,7 @@ import {
 export class <%= className %> extends ConvectorModel<<%= className %>> {
   @ReadOnly()
   @Required()
-  public readonly type = '<%= projectName %>.<%= name %>';
+  public readonly type = 'io.worldsibu.<%= name %>';
 
   @Required()
   @Validate(yup.string())
