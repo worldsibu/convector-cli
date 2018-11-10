@@ -1,0 +1,40 @@
+set -e 
+
+PRJ=<%= name %>
+CC=$PRJ-cc
+
+echo '==Bootstrap Project $PRJ==' 
+echo 'Creating root folder'
+mkdir -p $PRJ
+
+echo 'Building on $PRJ' 
+cd $PRJ 
+npm init -y
+
+echo '==Setup Lerna==' 
+echo 'Installing Lerna...' 
+npm i -D lerna 
+
+echo 'Initializing Lerna...' 
+npx lerna init 
+
+echo 'Installing root dependencies'
+npm install -D @worldsibu/convector-{adapter-mock,tool-{dev-env,chaincode-manager}} fabric-client@1.1.2 fabric-ca-client@1.1.2
+
+cd packages && mkdir $CC && cd $PRJ-cc
+
+echo 'Initializing Chaincode Package...' 
+npm init  --y 
+
+echo 'Installing Chaincode baseline dependencies...' 
+npm install -SE @worldsibu/convector-core-{model,controller} 
+
+npm i -SE reflect-metadata yup 
+
+echo 'Bootstraping src and test folder...' 
+mkdir src && mkdir test
+
+echo 'Empty model and controller...' 
+touch ./src/$PRJ.model.ts && touch ./src/$PRJ.controller.ts 
+
+echo 'All is ready'
