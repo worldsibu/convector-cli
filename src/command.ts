@@ -7,14 +7,21 @@ const fixPath = p => resolve(process.cwd(), p);
 
 const tasks = {
     async create(name: string, chaincode?: string) {
+        name = name.replace(/[^a-zA-Z ]/g, '');
         return await CLI.create(name, chaincode);
     },
     async generate(name: string, object: string) {
+        name = name.replace(/[^a-zA-Z ]/g, '');
         switch (object) {
             case 'chaincode':
                 return await CLI.generateCC(name);
+            case 'model':
+                return await CLI.generateModel(name);
+            case 'controller':
+                return await CLI.generateController(name);
             default:
-                throw new Error(`Option ${object} is not a valid generator. Try with 'chaincode' option.`);
+                // tslint:disable-next-line:max-line-length
+                throw new Error(`Option ${object} is not a valid generator. Try with 'chaincode', 'model', or 'controller' option.`);
         }
     }
 };
