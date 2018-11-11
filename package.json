@@ -22,7 +22,7 @@
     "cli"
   ],
   "bin": {
-    "cv": "./dist/command.js"
+    "conv": "./dist/command.js"
   },
   "dependencies": {
     "async": "^2.1.4",
