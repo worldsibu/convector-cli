@@ -2,6 +2,8 @@
 
 Convector CLI is the official Command-Line Interface for <a href="https://github.com/worldsibu/convector/" target="_blank">Convector Framework</a>. It is an open source project under an Apache 2.0 license to help you create Convector projects easily.
 
+Current version `0.1.1`.
+
 ## Tests 👷‍♂️
 
 Download Convector CLI, build it, link it to your global `node_modules`, and  use it.
@@ -54,27 +56,26 @@ cd coffeecoin
 conv generate chaincode productIdentity
 ```
 
-## Roadmap
+## Roadmap 🗺
 
 Proposed current roadmap. Have ideas? Post them in the [Issues section](https://github.com/worldsibu/convector-cli/issues).
 
 1. Individual generators for:
-    1. Project root structure
-    2. Package structure
-    3. Model file
-    4. Controller file
-    5. Test file
-    6. [🤚 We are here] Convector Tool: Dev Env and Chaincode Manager
-2. Log information to internet and error collection.
-3. Unify other Convector CLIs into one.
+    1. Project root structure - `conv new`
+    2. Package structure - `conv new -c <chaincode>` `conv generate`
+    3. Model file - `conv generate model <model-name>`
+    4. Controller file - `conv generate controller <controller-name>`
+    5. Convector Tool: Dev Env and Chaincode Manager - `npm run env:restart` `npm run cc:start -- <chaincode-name> <version>`
+2. Log usage information to internet.
+3. [🤚 We are here] Unify other Convector CLIs into one.
 4. Test methods generation from controller.
-5. Versioning of cc creation, distribute different versions of dependencies.
-6. Download settings from the internet
-
+5. Error collection details - report.
+6. Versioning of cc creation, distribute different versions of dependencies.
+7. Download settings from the internet.
 
 ## Important ⚗️
 
-This project is currently under development. Got issues? Feel free to let us know in the [Issues section](https://github.com/worldsibu/convector-cli/issues) of this repo or in our <a href="https://discord.gg/twRwpWt" target="_blank">Discord channel</a>.
+This project is currently under development and it's changing fast but you can use it and provide feedback. We love community feedback!
 
 ## Support
 
