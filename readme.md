@@ -2,7 +2,7 @@
 
 Convector CLI is the official Command-Line Interface for <a href="https://github.com/worldsibu/convector/" target="_blank">Convector Framework</a>. It is an open source project under an Apache 2.0 license to help you create Convector projects easily.
 
-Current version `0.1.1`.
+Current version `1.0.0`.
 
 ## Tests 👷‍♂️
 
@@ -75,7 +75,7 @@ Proposed current roadmap. Have ideas? Post them in the [Issues section](https://
 
 ## Important ⚗️
 
-This project is currently under development and it's changing fast but you can use it and provide feedback. We love community feedback!
+This project is currently under development and it's changing fast, but you can use it for your projects and if something doesn't work or would like new features provide feedback. We love community feedback!
 
 ## Support
 
