@@ -2,18 +2,27 @@
 
 Convector CLI is the official Command-Line Interface for <a href="https://github.com/worldsibu/convector/" target="_blank">Convector Framework</a>. It is an open source project under an Apache 2.0 license to help you create Convector projects easily.
 
-Current version `1.0.0`.
-
-## Tests 👷‍♂️
-
-Download Convector CLI, build it, link it to your global `node_modules`, and  use it.
-
-1. First bring up all the source code dependencies by running `npm i`.
-2. Then run `npm link` to enable it globally.
-
 ## Usage
 
-Go to the folder where you want to create a Convector project and run `conv new <name-of-project>`. For example if you run inside `~/Code` then the CLI will create the project in `~/Code/<nameofproject>`.
+```bash
+npm install -g @worldsibu/convector-cli
+```
+
+### Creating a new project with a chaincode ready
+
+```bash
+conv new PROJECT-NAME -c CHAINCODE-NAME
+cd PROJECT-NAME
+npm i
+# Bring up a development blockchain in your computer
+npm run env:restart
+# Install the chaincode to the blockchain
+npm run cc:start -- CHAINCODE-NAME 1
+# Upgrade the code amazing code you build on top of the template
+npm run cc:upgrade -- CHAINCODE-NAME 2
+```
+
+## Details
 
 ### conv new
 
@@ -43,18 +52,12 @@ conv generate model <chaincode-name>
 conv generate controller <chaincode-name>
 ```
 
-### Example of use.
+## Tests 👷‍♂️
 
-```bash
-# Create a whole project plus a chaincode
-conv new coffeecoin -c token
+Fork Convector CLI repo, build it, link it to your global `node_modules`, and  use it.
 
-# Get in the project folder
-cd coffeecoin
-
-# Add an extra Convector chaincode package
-conv generate chaincode productIdentity
-```
+1. First bring up all the source code dependencies by running `npm i`.
+2. Then run `npm link` to enable it globally.
 
 ## Roadmap 🗺
 
