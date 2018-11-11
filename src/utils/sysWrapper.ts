@@ -20,6 +20,24 @@ export module SysWrapper {
     });
   }
 
+  /**
+   * Renders to disk a file from a template
+   * @param filePath Destination path
+   * @param contents Contents in JSON format
+   * @param templatePath Location of the template
+   */
+  export function createFileFromTemplate(filePath: string, contents: any, templatePath: string): Promise<void | {}> {
+    return renderTemplateFromFile(templatePath, contents).then((compiledContents: string) => {
+      return new Promise(function (fulfilled, rejected) {
+        try {
+          write(filePath, compiledContents, fulfilled);
+        } catch (ex) {
+          rejected(ex);
+        }
+      });
+    });
+  }
+
   export function createFileRaw(filePath: string, contents: Buffer): Promise<void> {
     return new Promise(function (fulfilled, rejected) {
       try {
@@ -47,11 +65,15 @@ export module SysWrapper {
       } else {
         const store = memFs.create();
         const editor = memFsEditor.create(store);
-        let file = editor.read(filePath);
-        if (!file) {
-          rejected('Empty or not found file.');
+        try {
+          let file = editor.read(filePath);
+          if (!file) {
+            rejected('Empty or not found file.');
+          }
+          fulfilled(file);
+        } catch (ex) {
+          rejected(ex);
         }
-        fulfilled(file);
       }
     });
   }
@@ -159,7 +181,9 @@ export module SysWrapper {
     return fs.ensureDir(folder);
   }
 
-  /** Render a new string from a disk file and contents. */
+  /** 
+   * Render a new string from a disk file and contents. 
+   * */
   export function renderTemplateFromFile(filePath: string, content: any): Promise<string> {
     return new Promise(async function (fulfilled, rejected) {
       const store = memFs.create();
@@ -168,7 +192,6 @@ export module SysWrapper {
       if (!file) {
         return rejected(Error(`${filePath} does not exist.`));
       }
-      //console.log(file);
       fulfilled(await renderTemplateFromContent(file, content));
     });
   }

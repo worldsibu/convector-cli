@@ -6,41 +6,42 @@ import { resolve } from 'path';
 const fixPath = p => resolve(process.cwd(), p);
 
 const tasks = {
-    async create(name: string, path?: string) {
-        // console.log(`creating at ${path} ${name}`);
-        path = path || './';
-        return await CLI.create(name, path);
+    async create(name: string, chaincode?: string) {
+        name = name.replace(/[^a-zA-Z ]/g, '');
+        return await CLI.create(name, chaincode);
     },
-
-    // async addAdmin(
-    //     registry: Registry,
-    //     enrollmentID: string,
-    //     enrollmentSecret: string,
-    //     msp: string
-    // ) {
-    //     return await registry.addAdmin({ enrollmentID, enrollmentSecret }, msp);
-    // },
-
-    // async addUser(
-    //     registry: Registry,
-    //     enrollmentID: string,
-    //     affiliation: string,
-    //     role: string,
-    //     admin: string,
-    //     msp: string
-    // ) {
-    //     return await registry.addUser({ role, enrollmentID, affiliation, }, admin, msp);
-    // },
-
+    async generate(name: string, object: string) {
+        name = name.replace(/[^a-zA-Z ]/g, '');
+        switch (object) {
+            case 'chaincode':
+                return await CLI.generateCC(name);
+            case 'model':
+                return await CLI.generateModel(name);
+            case 'controller':
+                return await CLI.generateController(name);
+            default:
+                // tslint:disable-next-line:max-line-length
+                throw new Error(`Option ${object} is not a valid generator. Try with 'chaincode', 'model', or 'controller' option.`);
+        }
+    }
 };
 
 program
     .command('new <name>')
-    .option('-p, --path <path>', 'Path', fixPath)
-    //   .option('-p, --profile <profile>', 'Network profile path', fixPath)
+    .option('-c, --chaincode <chaincode>', 'Default Chaincode Name')
     .action(async (name: string, cmd: any) => {
-        await tasks.create(name, cmd.path);
-        // await tasks.create(registry, enrollmentID, enrollmentSecret, msp);
+        await tasks.create(
+            name,
+            cmd.chaincode);
+    });
+
+program
+    .command('generate <object> <name>')
+    // .option('-c, --chaincode <chaincode>', 'Default Chaincode Name')
+    .action(async (object: string, name: string, cmd: any) => {
+        await tasks.generate(
+            name,
+            object);
     });
 
 program.parse(process.argv);
