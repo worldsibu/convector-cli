@@ -31,7 +31,7 @@ export class ProjectStructureCompiler {
             {
                 name: 'cc:upgrade',
                 // tslint:disable-next-line:max-line-length
-                value: 'f() { npm-run-all -s \\"cc:package -- $1 org1\\" \\"cc:install -- org1 $1\\" \\"cc:install -- $1 org2\\" \\"cc:upgradePerOrg -- $1\\"; }; f'
+                value: 'f() { npm-run-all -s \\"cc:package -- $1 org1\\" \\"cc:install -- $1 $2 org1\\" \\"cc:install -- $1 $2 org2\\" \\"cc:upgradePerOrg -- $1 $2\\"; }; f'
             },
             {
                 name: '===================INTERNALS===================',
@@ -55,7 +55,7 @@ export class ProjectStructureCompiler {
                 value: 'f() { chaincode-manager --config ./$3.$1.config.json instantiate $1 $2; }; f'
             }, {
                 name: 'cc:upgradePerOrg',
-                value: 'f() { chaincode-manager --config ./org1.chaincode.config.json upgrade $1; }; f'
+                value: 'f() { chaincode-manager --config ./org1.$1.config.json upgrade $1 $2; }; f'
             }], null, [
                 {
                     name: 'lerna',
