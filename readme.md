@@ -2,6 +2,11 @@
 
 Convector CLI is the official Command-Line Interface for <a href="https://github.com/worldsibu/convector/" target="_blank">Convector Framework</a>. It is an open source project under an Apache 2.0 license to help you create Convector projects easily.
 
+## Prerequisites
+
+* [Node](https://nodejs.org/en/download/) 8.11.0 (other versions might work, but this is the one we use for development)
+* [Docker](https://www.docker.com/community-edition)
+
 ## Usage
 
 ```bash
