@@ -1,13 +1,13 @@
 import { SysWrapper } from './utils/sysWrapper';
 import { join } from 'path';
-import { PackageStructureCompiler, ProjectStructureCompiler } from './utils';
+import { PackageStructureCompiler, ProjectStructureCompiler, Utils } from './utils';
 import { ModelModel, ControllerModel } from './models';
 import { Analytics } from './utils/analytics';
 import * as Insight from 'insight';
 
 export class CLI {
     static async create(name: string, chaincode?: string) {
-        const cli = new CLI(name, chaincode);
+        const cli = new CLI(name, Utils.toPascalCase(chaincode));
         await cli.init();
         return cli;
     }
