@@ -1,6 +1,7 @@
 import { IDiskFile } from './IDiskFile.model';
 import { join } from 'path';
 import { SysWrapper } from '../utils/sysWrapper';
+import { Utils } from '../utils';
 import { SmartModel } from './smartModel';
 
 /** Controller compiler object. */
@@ -22,7 +23,8 @@ export class ControllerModel extends SmartModel {
             this.filePath,
             {
                 name: this.name,
-                className: this.className
+                className: this.className,
+                varName: this.varName
             }, this.templateFile);
     }
 
@@ -33,6 +35,11 @@ export class ControllerModel extends SmartModel {
                 return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
             })
             .join('');
+    }
+
+    /** Set var name */
+    get varName() {
+        return Utils.toCamelCase(this.name);
     }
 
     /**
