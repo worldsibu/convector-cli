@@ -12,8 +12,8 @@ export class <%= className %>Controller extends ConvectorController {
   @Invokable()
   public async create(
     @Param(<%= className %>)
-    <%= name %>: <%= className %>
+    <%= varName %>: <%= className %>
   ) {
-    await <%= name %>.save();
+    await <%= varName %>.save();
   }
 }
