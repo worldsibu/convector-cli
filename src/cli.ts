@@ -32,6 +32,7 @@ export class CLI {
 
     constructor(public name?: string, public chaincode?: string) {
         this.analytics = new Analytics();
+        this.chaincode = this.chaincode || this.name;
     }
 
     public async init() {
