@@ -1,6 +1,6 @@
 {
   "name": "@worldsibu/convector-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Official Command-Line Interface for Convector Framework",
   "main": "./dist/src/index.js",
   "typings": "./dist/src/index.d.ts",
