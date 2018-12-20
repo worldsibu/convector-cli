@@ -3,7 +3,7 @@ import memFsEditor = require('mem-fs-editor');
 import * as ejs from 'ejs';
 import * as fs from 'fs-extra';
 import { exec } from 'shelljs';
-import { join } from 'path';
+import { join, relative } from 'path';
 
 export module SysWrapper {
 
@@ -34,7 +34,7 @@ export module SysWrapper {
         } catch (ex) {
           rejected(ex);
         }
-      });
+      }).then(() => {showSuccessInfo(filePath)});
     });
   }
 
@@ -223,5 +223,9 @@ export module SysWrapper {
     editor.write(filePath,
       contents);
     editor.commit([], cb);
+  }
+
+  function showSuccessInfo(filePath: string) {
+    console.log(`CREATE ${relative('', filePath)} (${fs.statSync(filePath).size} bytes)`);
   }
 }
