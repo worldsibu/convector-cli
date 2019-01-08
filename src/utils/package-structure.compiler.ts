@@ -1,6 +1,7 @@
 import {
     PackageModel, TsConfigModel, LevelEnum, ModelModel,
-    ControllerModel, IndexModel, ChaincodeProfileModel
+    ControllerModel, IndexModel, ChaincodeProfileModel,
+    ReadmeModel
 } from '../models';
 import { SysWrapper } from './sysWrapper';
 import { join } from 'path';
@@ -14,6 +15,7 @@ export class PackageStructureCompiler {
     index: IndexModel;
     ccProfileOrg1: ChaincodeProfileModel;
     ccProfileOrg2: ChaincodeProfileModel;
+    readme: ReadmeModel;
 
     constructor(public ccName: string, public projectName?: string) {
         let className = Utils.toPascalCase(ccName);
@@ -79,6 +81,7 @@ export class PackageStructureCompiler {
         this.model = new ModelModel(ccName, projectName);
         this.controller = new ControllerModel(ccName, projectName);
         this.index = new IndexModel(ccName, projectName);
+        this.readme = new ReadmeModel(ccName, projectName);
 
         this.ccProfileOrg1 = new ChaincodeProfileModel(ccName, 'org1', projectName);
         this.ccProfileOrg2 = new ChaincodeProfileModel(ccName, 'org2', projectName);
@@ -98,7 +101,8 @@ export class PackageStructureCompiler {
                     this.controller.save(),
                     this.index.save(),
                     this.ccProfileOrg1.save(),
-                    this.ccProfileOrg2.save()
+                    this.ccProfileOrg2.save(),
+                    this.readme.save()
                 ]);
             })
             .catch((ex) => {
