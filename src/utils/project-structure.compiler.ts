@@ -7,7 +7,7 @@ export class ProjectStructureCompiler {
     rootLerna: LernaModel;
     rootTsConfig: TsConfigModel;
     readme: ReadmeModel;
-    
+
     constructor(public projectName: string, public chaincodeName?: string) {
         this.rootPackage = new PackageModel(projectName, LevelEnum.ROOT, projectName,
             [{
@@ -80,7 +80,7 @@ export class ProjectStructureCompiler {
             ]);
         this.rootLerna = new LernaModel(projectName, projectName);
         this.rootTsConfig = new TsConfigModel(projectName, LevelEnum.ROOT, projectName);
-        this.readme = new ReadmeModel(projectName, chaincodeName);
+        this.readme = new ReadmeModel(chaincodeName, projectName);
     }
 
     async save() {
