@@ -46,7 +46,7 @@ export class ProjectStructureCompiler {
             {
                 name: 'cc:package',
                 // tslint:disable-next-line:max-line-length
-                value: 'f() { npm run lerna:build; chaincode-manager --config ./$2.$1.config.json --output ./chaincode package; }; f'
+                value: 'f() { npm run lerna:build; chaincode-manager --config ./$2.$1.config.json --output ./chaincode-$2 package; }; f'
             }, {
                 name: 'cc:install',
                 value: 'f() { chaincode-manager --config ./$3.$1.config.json install ./chaincode $1 $2; }; f'

@@ -1,7 +1,7 @@
 import { SysWrapper } from './utils/sysWrapper';
 import { join } from 'path';
 import { PackageStructureCompiler, ProjectStructureCompiler } from './utils';
-import { ModelModel, ControllerModel } from './models';
+import { ModelModel, ControllerModel, IndexModel } from './models';
 import { Analytics } from './utils/analytics';
 import * as Insight from 'insight';
 
@@ -17,19 +17,24 @@ export class CLI {
         await cli.generateCC();
         return cli;
     }
-    static async generateModel(chaincode: string) {
-        const cli = new CLI(null, chaincode);
+    static async generateModel(chaincode: string, objectname: string) {
+        const cli = new CLI(objectname, chaincode);
         await cli.generateModel();
         return cli;
     }
-    static async generateController(chaincode: string) {
-        const cli = new CLI(null, chaincode);
+    static async generateController(chaincode: string, objectname: string) {
+        const cli = new CLI(objectname, chaincode);
         await cli.generateController();
         return cli;
     }
 
     analytics: Analytics;
 
+    /**
+     * 
+     * @param name Project Name
+     * @param chaincode File Name
+     */
     constructor(public name?: string, public chaincode?: string) {
         this.analytics = new Analytics();
         this.chaincode = this.chaincode || this.name;
@@ -53,15 +58,20 @@ export class CLI {
     }
 
     public async generateModel() {
-        let model = new ModelModel(this.chaincode, this.name, true);
+        let model = new ModelModel(this.name, this.chaincode, null, false);
         await model.save();
+
+        let newIndex = new IndexModel(this.name, this.chaincode, null);
+        await newIndex.recompile();
+
         this.analytics.trackGenerateModel(`CHAINCODE=${this.chaincode}`);
     }
 
     public async generateController() {
-        let ctrl = new ControllerModel(this.chaincode, this.name, true);
+        let ctrl = new ControllerModel(this.name, this.chaincode, null, false);
         await ctrl.save();
+        let newIndex = new IndexModel(this.name, this.chaincode, null);
+        await newIndex.recompile();
         this.analytics.trackGenerateController(`CHAINCODE=${this.chaincode}`);
     }
-
 }
