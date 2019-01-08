@@ -77,9 +77,9 @@ export class PackageStructureCompiler {
             ]);
 
         this.rootTsConfig = new TsConfigModel(ccName, LevelEnum.PACKAGE, projectName);
-        this.model = new ModelModel(ccName, projectName);
-        this.controller = new ControllerModel(ccName, projectName);
-        this.index = new IndexModel(ccName, projectName);
+        this.model = new ModelModel(ccName, ccName, projectName);
+        this.controller = new ControllerModel(ccName, ccName, projectName);
+        this.index = new IndexModel(ccName, ccName, projectName);
 
         this.ccProfileOrg1 = new ChaincodeProfileModel(ccName, 'org1', projectName);
         this.ccProfileOrg2 = new ChaincodeProfileModel(ccName, 'org2', projectName);

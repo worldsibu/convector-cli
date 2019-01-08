@@ -228,4 +228,11 @@ export module SysWrapper {
   function showSuccessInfo(filePath: string) {
     console.log(`CREATE ${relative('', filePath)} (${fs.statSync(filePath).size} bytes)`);
   }
+  export function enumFilesInFolder(folder: string): Promise<string[]> {
+    return new Promise(function (fulfilled, rejected) {
+      fs.readdir(relative('', folder), (err, files) => {
+        fulfilled(files);
+      });
+    });
+  }
 }
