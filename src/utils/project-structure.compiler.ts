@@ -1,4 +1,4 @@
-import { PackageModel, LernaModel, TsConfigModel, LevelEnum } from '../models';
+import { PackageModel, LernaModel, TsConfigModel, LevelEnum, ReadmeModel } from '../models';
 import { SysWrapper } from './sysWrapper';
 import { join } from 'path';
 
@@ -6,8 +6,9 @@ export class ProjectStructureCompiler {
     rootPackage: PackageModel;
     rootLerna: LernaModel;
     rootTsConfig: TsConfigModel;
-
-    constructor(public projectName: string) {
+    readme: ReadmeModel;
+    
+    constructor(public projectName: string, public chaincodeName?: string) {
         this.rootPackage = new PackageModel(projectName, LevelEnum.ROOT, projectName,
             [{
                 name: 'install',
@@ -79,6 +80,7 @@ export class ProjectStructureCompiler {
             ]);
         this.rootLerna = new LernaModel(projectName, projectName);
         this.rootTsConfig = new TsConfigModel(projectName, LevelEnum.ROOT, projectName);
+        this.readme = new ReadmeModel(projectName, chaincodeName);
     }
 
     async save() {
@@ -86,6 +88,7 @@ export class ProjectStructureCompiler {
             this.rootPackage.save(),
             this.rootLerna.save(),
             this.rootTsConfig.save(),
+            this.readme.save(),
             this.breadcrumb()
         ]);
     }
