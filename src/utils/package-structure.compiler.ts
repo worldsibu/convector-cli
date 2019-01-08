@@ -1,6 +1,7 @@
 import {
     PackageModel, TsConfigModel, LevelEnum, ModelModel,
-    ControllerModel, IndexModel, ChaincodeProfileModel
+    ControllerModel, IndexModel, ChaincodeProfileModel,
+    ReadmeModel
 } from '../models';
 import { SysWrapper } from './sysWrapper';
 import { join } from 'path';
@@ -98,7 +99,7 @@ export class PackageStructureCompiler {
                     this.controller.save(),
                     this.index.save(),
                     this.ccProfileOrg1.save(),
-                    this.ccProfileOrg2.save()
+                    this.ccProfileOrg2.save(),                    
                 ]);
             })
             .catch((ex) => {

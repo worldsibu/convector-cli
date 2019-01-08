@@ -2,8 +2,10 @@
   "user": "admin",
   "txTimeout": 300000,
   "channel": "ch1",
-  "keyStore": "./.convector-dev-env/.hfc-<%= org %>",
-  "networkProfile": "./.convector-dev-env/examples/<%= org %>.network-profile.yaml",
+  "keyStore": "<%= root %>/.hfc-<%= org %>",
+  "//**INSIDE-DOCKER**//keyStore": "/config/.hfc-<%= org %>",
+  "networkProfile": "<%= root %>/network-profiles/<%= org %>.network-profile.yaml",
+  "//**INSIDE-DOCKER**//networkProfile": "/config/network-profiles/<%= org %>.network-profile.inside-docker.yaml",
   "controllers": [
     {
       "name": "<%- chaincodeFolder %>",

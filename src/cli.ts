@@ -41,7 +41,7 @@ export class CLI {
     }
 
     public async init() {
-        let structure = new ProjectStructureCompiler(this.name);
+        let structure = new ProjectStructureCompiler(this.name, this.chaincode || this.name);
         await structure.save();
         this.analytics.trackNewProject(`PROJECT=${this.name}`);
         if (this.chaincode) {

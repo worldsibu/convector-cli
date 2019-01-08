@@ -17,7 +17,7 @@ export module SysWrapper {
       } catch (ex) {
         rejected(ex);
       }
-    });
+    }).then(() => { showSuccessInfo(filePath); });
   }
 
   /**
