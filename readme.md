@@ -60,12 +60,7 @@ conv generate chaincode <chaincode-name>
 
 ```bash
 # Creates the file in the current folder (by overriding the folder conventions).
-conv generate model <chaincode-name>
-```
-
-```bash
-# Creates the file in the current folder (by overriding the folder conventions).
-conv generate controller <chaincode-name>
+conv generate model <chaincode-name> <model-name>
 ```
 
 ## Tests 👷‍♂️
@@ -83,7 +78,7 @@ Proposed current roadmap. Have ideas? Post them in the [Issues section](https://
     1. Project root structure - `conv new`
     2. Package structure - `conv new -c <chaincode>` `conv generate`
     3. Model file - `conv generate model <model-name>`
-    4. Controller file - `conv generate controller <controller-name>`
+    4. Controller file - `conv generate controller <controller-name>` [DEPRECATED]
     5. Convector Tool: Dev Env and Chaincode Manager - `npm run env:restart` `npm run cc:start -- <chaincode-name> <version>`
 2. Log usage information to internet.
 3. [🤚 We are here] Unify other Convector CLIs into one.

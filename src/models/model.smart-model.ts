@@ -6,9 +6,17 @@ import { SmartModel } from './smartModel';
 /** Model compiler object. */
 export class ModelModel extends SmartModel {
 
+    /**
+     * 
+     * @param name File name
+     * @param chaincodeName Chaincode Name
+     * @param projectName Chaincode project name
+     * @param ignoreConvention Save right here
+     */
     constructor(
         public name: string,
-        public projectName?: string,
+        public chaincodeName: string,
+        public projectName: string,
         public ignoreConvention?: boolean) {
         super(name, projectName);
     }
@@ -45,7 +53,7 @@ export class ModelModel extends SmartModel {
     /** Actual file Path for the object. */
     get filePath() {
         if (!this.ignoreConvention) {
-            return `${this.projectRoot}/packages/${this.name}-cc/src/${this.name}.model.ts`;
+            return `${this.projectRoot}/packages/${this.chaincodeName}-cc/src/${this.name}.model.ts`;
         } else {
             return join(process.cwd(), `${this.name}.model.ts`);
         }

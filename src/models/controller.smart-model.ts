@@ -8,6 +8,7 @@ import { SmartModel } from './smartModel';
 export class ControllerModel extends SmartModel {
     constructor(
         public name: string,
+        public chaincodeName: string,
         public projectName?: string,
         public ignoreConvention?: boolean) {
         super(name, projectName);
@@ -52,7 +53,7 @@ export class ControllerModel extends SmartModel {
     /** Actual file Path for the object. */
     get filePath() {
         if (!this.ignoreConvention) {
-            return `${this.projectRoot}/packages/${this.name}-cc/src/${this.name}.controller.ts`;
+            return `${this.projectRoot}/packages/${this.chaincodeName}-cc/src/${this.name}.controller.ts`;
         } else {
             return join(process.cwd(), `${this.name}.controller.ts`);
         }
