@@ -31,7 +31,8 @@ export class ChaincodeProfileModel extends SmartModel {
             {
                 org: this.orgName,
                 chaincodeFolder: `${this.name}-cc`,
-                className: Utils.toPascalCase(this.name)
+                className: Utils.toPascalCase(this.name),
+                root: join(require('os').homedir(), `/hyperledger-fabric-network`)
             }, this.templateFile);
     }
 
