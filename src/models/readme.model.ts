@@ -27,6 +27,26 @@ You may very well install **Hurley** globally for easier and more flexible manag
 
 \`npm i -g @worldsibu/hurley\`
 
+Since with Hurley globally you have control over everything, some things that you can do, for example, is installing a Convector Smart Contract with a different name than the one you used for your project.
+
+\`\`\`
+# Use the same package
+cd ./chaincode-${this.name}
+# Install a new chaincode with the same source code but the name 'anothernameforyourcc'
+hurl install anothernameforyourcc node
+\`\`\`
+
+Other complex tasks you may need is installing to a different channel.
+
+\`\`\`
+# Use the same package
+cd ./chaincode-${this.name}
+# Be sure you started your environment with more than one channel running 'hurl new --channels 2'. Otherwise this will throw an error.
+hurl install anothernameforyourcc node --channel ch2
+\`\`\`
+
+---
+
 If you don't want to, don't worries! This project works right away.
 
 ## Start - if you have Hurley globally
@@ -44,7 +64,7 @@ hurl new
 
 \`\`\`
 # Package your smart contract's code  - From the root of your project
-npm run cc:package -- ${this.name}
+npm run cc:package -- ${this.name} org1
 # Install to your blockchain - From the root of your project
 cd ./chaincode-${this.name}
 hurl install ${this.name} node
