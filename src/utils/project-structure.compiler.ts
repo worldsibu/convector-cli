@@ -14,11 +14,11 @@ export class ProjectStructureCompiler {
                 value: 'npm-run-all -s lerna:install'
             }, {
                 name: 'env:restart',
-                value: './node_modules/@worldsibu/convector-tool-dev-env/scripts/restart.sh'
+                value: './node_modules/.bin/hurl new'
             },
             {
                 name: 'env:clean',
-                value: './node_modules/@worldsibu/convector-tool-dev-env/scripts/clean.sh'
+                value: './node_modules/.bin/hurl clean'
             },
             // Convector Chaincode Manager
             // $1: chaincode name
@@ -26,12 +26,12 @@ export class ProjectStructureCompiler {
             {
                 name: 'cc:start',
                 // tslint:disable-next-line:max-line-length
-                value: 'f() { npm-run-all -s \\"cc:package -- $1 org1\\" \\"cc:install -- $1 $2 org1\\" \\"cc:install -- $1 $2 org2\\" \\"cc:instantiate -- $1 $2 org1\\"; }; f'
+                value: 'f() { npm run cc:package -- $1 org1; npm run cc:install $1; }; f'
             },
             {
                 name: 'cc:upgrade',
                 // tslint:disable-next-line:max-line-length
-                value: 'f() { npm-run-all -s \\"cc:package -- $1 org1\\" \\"cc:install -- $1 $2 org1\\" \\"cc:install -- $1 $2 org2\\" \\"cc:upgradePerOrg -- $1 $2\\"; }; f'
+                value: 'f() { npm run cc:package -- $1 org1; cd ./chaincode-$1; ../node_modules/.bin/hurl upgrade $1 node $2; }; f'
             },
             {
                 name: '===================INTERNALS===================',
@@ -46,16 +46,10 @@ export class ProjectStructureCompiler {
             {
                 name: 'cc:package',
                 // tslint:disable-next-line:max-line-length
-                value: 'f() { npm run lerna:build; chaincode-manager --config ./$2.$1.config.json --output ./chaincode package; }; f'
+                value: 'f() { npm run lerna:build; chaincode-manager --config ./$2.$1.config.json --output ./chaincode-$1 package; }; f'
             }, {
                 name: 'cc:install',
-                value: 'f() { chaincode-manager --config ./$3.$1.config.json install ./chaincode $1 $2; }; f'
-            }, {
-                name: 'cc:instantiate',
-                value: 'f() { chaincode-manager --config ./$3.$1.config.json instantiate $1 $2; }; f'
-            }, {
-                name: 'cc:upgradePerOrg',
-                value: 'f() { chaincode-manager --config ./org1.$1.config.json upgrade $1 $2; }; f'
+                value: 'f() { cd ./chaincode-$1; ../node_modules/.bin/hurl install $1 node; }; f'
             }], null, [
                 {
                     name: 'lerna',
@@ -78,6 +72,9 @@ export class ProjectStructureCompiler {
                 }, {
                     name: 'npm-run-all',
                     value: '^4.1.5'
+                }, {
+                    name: '@worldsibu/hurley',
+                    value: '^0.4.13'
                 }
             ]);
         this.rootLerna = new LernaModel(projectName, projectName);
