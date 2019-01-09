@@ -17,6 +17,7 @@ npm update -g @worldsibu/convector-cli
 
 * [Node](https://nodejs.org/en/download/) 8.11.0 (other versions might work, but this is the one we use for development)
 * [Docker](https://www.docker.com/community-edition)
+* You may want to install [Hurley](https://github.com/worldsibu/hurley) to manage your development environment as well. If it's not installed you can still create and manage your development environment through the NPM commands Convector-CLI generates for you.
 
 ## Usage
 

@@ -32,7 +32,7 @@ export class ProjectStructureCompiler {
             {
                 name: 'cc:upgrade',
                 // tslint:disable-next-line:max-line-length
-                value: 'f() { npm run cc:package -- $1 org1; cd ./chaincode-$1; ../node_modules/.bin/hurl upgrade $1 node $2; }; f'
+                value: 'f() { npm run cc:package -- $1 org1; ./node_modules/.bin/hurl upgrade $1 node $2  -P ./chaincode-$1; }; f'
             },
             {
                 name: '===================INTERNALS===================',
@@ -50,7 +50,7 @@ export class ProjectStructureCompiler {
                 value: 'f() { npm run lerna:build; chaincode-manager --config ./$2.$1.config.json --output ./chaincode-$1 package; }; f'
             }, {
                 name: 'cc:install',
-                value: 'f() { cd ./chaincode-$1; ../node_modules/.bin/hurl install $1 node; }; f'
+                value: 'f() { ./node_modules/.bin/hurl install $1 node -P ./chaincode-$1; }; f'
             }], null, [
                 {
                     name: 'lerna',
@@ -75,7 +75,7 @@ export class ProjectStructureCompiler {
                     value: '^4.1.5'
                 }, {
                     name: '@worldsibu/hurley',
-                    value: '^0.4.13'
+                    value: '^0.4.14'
                 }
             ]);
         this.rootLerna = new LernaModel(projectName, projectName);

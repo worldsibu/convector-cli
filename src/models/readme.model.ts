@@ -31,7 +31,6 @@ Since with Hurley globally you have control over everything, some things that yo
 
 \`\`\`
 # Use the same package
-cd ./chaincode-${this.name}
 # Install a new chaincode with the same source code but the name 'anothernameforyourcc'
 hurl install anothernameforyourcc node
 \`\`\`
@@ -40,7 +39,6 @@ Other complex tasks you may need is installing to a different channel.
 
 \`\`\`
 # Use the same package
-cd ./chaincode-${this.name}
 # Be sure you started your environment with more than one channel running 'hurl new --channels 2'. Otherwise this will throw an error.
 hurl install anothernameforyourcc node --channel ch2
 \`\`\`
@@ -66,12 +64,10 @@ hurl new
 # Package your smart contract's code  - From the root of your project
 npm run cc:package -- ${this.name} org1
 # Install to your blockchain - From the root of your project
-cd ./chaincode-${this.name}
-hurl install ${this.name} node
+hurl install ${this.name} node -P ./chaincode-${this.name}
 
 # Upgrade your existing chaincode - From the root of your project
-cd ./chaincode-${this.name}
-hurl upgrade ${this.name} node 1.2
+hurl upgrade ${this.name} node 1.2 -P ./chaincode-${this.name}
 \`\`\`
 
 ## Start - if you don't have Hurley globally
