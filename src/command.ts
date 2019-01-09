@@ -6,8 +6,6 @@ import * as updateNotifier from 'update-notifier';
 
 const pkg = require('../package.json');
 
-const fixPath = p => resolve(process.cwd(), p);
-
 const tasks = {
     async create(name: string, chaincode?: string) {
         name = name.replace(/[^a-zA-Z ]/g, '');
@@ -45,9 +43,9 @@ program
         }
     });
 
-updateNotifier({pkg}).notify();
+updateNotifier({
+    pkg,
+    updateCheckInterval: 1000 * 60
+}).notify();
 
 program.parse(process.argv);
-
-
- 
