@@ -92,7 +92,7 @@ npm run env:restart
 npm run cc:start -- ${this.name}
 
 # Upgrade your existing chaincode - From the root of your project
-npm run cc:start -- ${this.name} 1.2
+npm run cc:upgrade -- ${this.name} 1.2
 \`\`\`
 
 > Check all the information to work with Convector <a href="https://worldsibu.github.io/convector" target="_blank">in the DOCS site</a>.
