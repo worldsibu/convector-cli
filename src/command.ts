@@ -2,6 +2,9 @@
 import * as program from 'commander';
 import { CLI } from './cli';
 import { resolve } from 'path';
+import * as updateNotifier from 'update-notifier';
+
+const pkg = require('../package.json');
 
 const fixPath = p => resolve(process.cwd(), p);
 
@@ -42,4 +45,9 @@ program
         }
     });
 
+updateNotifier({pkg}).notify();
+
 program.parse(process.argv);
+
+
+ 
