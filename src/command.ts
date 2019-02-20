@@ -3,6 +3,7 @@ import * as program from 'commander';
 import { CLI } from './cli';
 import { resolve } from 'path';
 import * as updateNotifier from 'update-notifier';
+import { Utils } from './utils';
 
 const pkg = require('../package.json');
 
@@ -17,6 +18,8 @@ program
     .command('new <name>')
     .option('-c, --chaincode <chaincode>', 'Default Chaincode Name')
     .action(async (name: string, cmd: any) => {
+        name = Utils.toCamelCase(name);
+        cmd.chaincode = Utils.toCamelCase(cmd.chaincode);
         await tasks.create(
             name,
             cmd.chaincode);
@@ -28,6 +31,8 @@ program
     // .option('-c, --chaincode <chaincode>', 'Default Chaincode Name')
     .action(async (object: string, objectname: string, cmd: any) => {
         // objectname = objectname.replace(/[^a-zA-Z ]/g, '');
+        objectname = Utils.toCamelCase(objectname);
+        cmd.chaincode = Utils.toCamelCase(cmd.chaincode);
 
         if ((!cmd || !cmd.chaincode) && object !== 'chaincode') {
             throw new Error('Please specify the chaincode project with the parameter -c');

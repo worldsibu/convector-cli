@@ -6,6 +6,10 @@ export namespace Utils {
     }
 
     export function toCamelCase(text: string): string {
+        if(!text){
+            return '';
+        }
+        text = text.replace(text[0], text[0].toLowerCase());
         return text.replace(/([a-z])-([a-z])/ig, (matches, g1, g2) => `${g1}${g2.toUpperCase()}`);
     }
 }

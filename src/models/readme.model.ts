@@ -32,6 +32,9 @@ npm i
 npm run env:restart
 # Install your smart contract
 npm run cc:start -- ${this.name}
+# Make a testing call to create a record in the ledger
+# Beware that the first call may fail with a timeout! Just happens the first time
+hurl invoke ${this.name} ${this.name}_create "{\\"name\\":\\"my first request\\",\\"id\\":\\"0001\\",\\"created\\":0,\\"modified\\":0}"
 \`\`\`
 
 ## About Hurley
