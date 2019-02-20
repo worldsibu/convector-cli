@@ -8,7 +8,7 @@ const pkg = require('../package.json');
 
 const tasks = {
     async create(name: string, chaincode?: string) {
-        name = name.replace(/[^a-zA-Z ]/g, '');
+        // name = name.replace(/[^a-zA-Z ]/g, '');
         return await CLI.create(name, chaincode);
     }
 };
@@ -27,7 +27,7 @@ program
     .option('-c, --chaincode <chaincode>', 'Chaincode project where to create')
     // .option('-c, --chaincode <chaincode>', 'Default Chaincode Name')
     .action(async (object: string, objectname: string, cmd: any) => {
-        objectname = objectname.replace(/[^a-zA-Z ]/g, '');
+        // objectname = objectname.replace(/[^a-zA-Z ]/g, '');
 
         if ((!cmd || !cmd.chaincode) && object !== 'chaincode') {
             throw new Error('Please specify the chaincode project with the parameter -c');

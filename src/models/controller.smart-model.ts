@@ -10,6 +10,7 @@ export class ControllerModel extends SmartModel {
         public name: string,
         public chaincodeName: string,
         public projectName?: string,
+        public classCCName?: string,
         public ignoreConvention?: boolean) {
         super(name, projectName);
     }
@@ -20,22 +21,13 @@ export class ControllerModel extends SmartModel {
 
     /** Save to disk. */
     async save() {
-        await SysWrapper.createFileFromTemplate(
+        await SysWrapper.createFileFromTemplatePath(
             this.filePath,
             {
                 name: this.name,
-                className: this.className,
+                className: this.classCCName,
                 varName: this.varName
             }, this.templateFile);
-    }
-
-    /** TypeScript classs. */
-    get className() {
-        return this.name.match(/[a-z]+/gi)
-            .map(function (word) {
-                return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
-            })
-            .join('');
     }
 
     /** Set var name */

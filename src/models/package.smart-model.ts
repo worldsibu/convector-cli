@@ -11,6 +11,7 @@ export class PackageModel extends SmartModel {
      */
     constructor(
         public name: string,
+        public classCCName: string,
         public level: LevelEnum,
         public projectName: string,
         public scripts?: PairString[],
@@ -26,7 +27,7 @@ export class PackageModel extends SmartModel {
 
     /** Save to disk. */
     async save() {
-        await SysWrapper.createFileFromTemplate(
+        await SysWrapper.createFileFromTemplatePath(
             this.filePath,
             {
                 name: `${this.name}`,

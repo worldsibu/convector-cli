@@ -12,7 +12,8 @@ export class TsConfigModel extends SmartModel {
      * @param level Type of package to create (root level or package level)
      */
     constructor(
-        public name: string, public level: LevelEnum,
+        public name: string, 
+        public level: LevelEnum,
         public projectName?: string) {
         super(name, projectName);
     }
@@ -24,7 +25,7 @@ export class TsConfigModel extends SmartModel {
 
     /** Save to disk. */
     async save() {
-        await SysWrapper.createFileFromTemplate(
+        await SysWrapper.createFileFromTemplatePath(
             this.filePath,
             {
             }, this.templateFile);

@@ -1,25 +1,36 @@
 import { PackageModel, LernaModel, TsConfigModel, LevelEnum, ReadmeModel } from '../models';
 import { SysWrapper } from './sysWrapper';
 import { join } from 'path';
+import { Utils } from '.';
+import { UpdatePathsScriptModel } from '../models/update-paths.admin';
 
 export class ProjectStructureCompiler {
     rootPackage: PackageModel;
     rootLerna: LernaModel;
     rootTsConfig: TsConfigModel;
     readme: ReadmeModel;
+    updatePathsScript: UpdatePathsScriptModel;
 
     constructor(public projectName: string, public chaincodeName?: string) {
-        this.rootPackage = new PackageModel(projectName, LevelEnum.ROOT, projectName,
+        const classCCName = Utils.toPascalCase(chaincodeName || projectName);
+        projectName = Utils.toCamelCase(projectName);
+
+        this.rootPackage = new PackageModel(projectName, classCCName, LevelEnum.ROOT, projectName,
             [{
                 name: 'install',
                 value: 'npm-run-all -s lerna:install'
             }, {
+                name: 'build',
+                value: 'node ./update-paths.js'
+            }, {
                 name: 'env:restart',
-                value: './node_modules/.bin/hurl new'
-            },
-            {
+                value: 'hurl new'
+            }, {
+                name: 'test',
+                value: 'npm-run-all -s lerna:test'
+            }, {
                 name: 'env:clean',
-                value: './node_modules/.bin/hurl clean'
+                value: 'hurl clean'
             },
             // Convector Chaincode Manager
             // $1: chaincode name
@@ -32,7 +43,7 @@ export class ProjectStructureCompiler {
             {
                 name: 'cc:upgrade',
                 // tslint:disable-next-line:max-line-length
-                value: 'f() { npm run cc:package -- $1 org1; ./node_modules/.bin/hurl upgrade $1 node $2  -P ./chaincode-$1; }; f'
+                value: 'f() { npm run cc:package -- $1 org1; hurl upgrade $1 node $2  -P ./chaincode-$1; }; f'
             },
             {
                 name: '===================INTERNALS===================',
@@ -50,11 +61,14 @@ export class ProjectStructureCompiler {
                 value: 'f() { npm run lerna:build; chaincode-manager --config ./$2.$1.config.json --output ./chaincode-$1 package; }; f'
             }, {
                 name: 'cc:install',
-                value: 'f() { ./node_modules/.bin/hurl install $1 node -P ./chaincode-$1; }; f'
+                value: 'f() { hurl install $1 node -P ./chaincode-$1; }; f'
+            }, {
+                name: 'lerna:test',
+                value: 'lerna exec npm run test'
             }], null, [
                 {
                     name: 'lerna',
-                    value: '^3.4.3'
+                    value: '^3.13.0'
                 }, {
                     name: '@worldsibu/convector-adapter-mock',
                     value: '^1.2.0'
@@ -66,21 +80,22 @@ export class ProjectStructureCompiler {
                     value: '^1.2.0'
                 }, {
                     name: 'fabric-ca-client',
-                    value: '~1.1.2'
+                    value: '~1.4.0'
                 }, {
                     name: 'fabric-client',
-                    value: '~1.1.2'
+                    value: '~1.4.0'
                 }, {
                     name: 'npm-run-all',
                     value: '^4.1.5'
                 }, {
                     name: '@worldsibu/hurley',
-                    value: '^0.4.14'
+                    value: '^0.5.0'
                 }
             ]);
         this.rootLerna = new LernaModel(projectName, projectName);
         this.rootTsConfig = new TsConfigModel(projectName, LevelEnum.ROOT, projectName);
         this.readme = new ReadmeModel(chaincodeName, projectName);
+        this.updatePathsScript = new UpdatePathsScriptModel(chaincodeName, projectName);
     }
 
     async save() {
@@ -89,6 +104,7 @@ export class ProjectStructureCompiler {
             this.rootLerna.save(),
             this.rootTsConfig.save(),
             this.readme.save(),
+            this.updatePathsScript.save(),
             this.breadcrumb()
         ]);
     }
@@ -96,6 +112,6 @@ export class ProjectStructureCompiler {
     async breadcrumb() {
         return SysWrapper.createFile(join(process.cwd(), `./${this.projectName}/.convector`),
             `This is a project created with Convector CLI. 
-        For more information https://github.com/worldsibu/convector-cli`);
+For more information https://github.com/worldsibu/convector-cli`);
     }
 }

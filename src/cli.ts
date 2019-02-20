@@ -1,6 +1,6 @@
 import { SysWrapper } from './utils/sysWrapper';
 import { join } from 'path';
-import { PackageStructureCompiler, ProjectStructureCompiler } from './utils';
+import { PackageStructureCompiler, ProjectStructureCompiler, Utils } from './utils';
 import { ModelModel, ControllerModel, IndexModel } from './models';
 import { Analytics } from './utils/analytics';
 import * as Insight from 'insight';
@@ -58,7 +58,8 @@ export class CLI {
     }
 
     public async generateModel() {
-        let model = new ModelModel(this.name, this.chaincode, null, false);
+        const classCCName = Utils.toPascalCase(this.chaincode);
+        let model = new ModelModel(this.name, this.chaincode, classCCName, null, false);
         await model.save();
 
         let newIndex = new IndexModel(this.name, this.chaincode, null);
@@ -68,7 +69,8 @@ export class CLI {
     }
 
     public async generateController() {
-        let ctrl = new ControllerModel(this.name, this.chaincode, null, false);
+        const classCCName = Utils.toPascalCase(this.chaincode);
+        let ctrl = new ControllerModel(this.name, this.chaincode, classCCName, null, false);
         await ctrl.save();
         let newIndex = new IndexModel(this.name, this.chaincode, null);
         await newIndex.recompile();

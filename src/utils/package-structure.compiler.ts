@@ -6,20 +6,23 @@ import {
 import { SysWrapper } from './sysWrapper';
 import { join } from 'path';
 import { Utils } from '.';
+import { TestModel } from '../models/test.smart-model';
 
 export class PackageStructureCompiler {
     rootPackage: PackageModel;
     rootTsConfig: TsConfigModel;
     model: ModelModel;
+    test: TestModel;
     controller: ControllerModel;
     index: IndexModel;
     ccProfileOrg1: ChaincodeProfileModel;
     ccProfileOrg2: ChaincodeProfileModel;
 
     constructor(public ccName: string, public projectName?: string) {
-        let className = Utils.toPascalCase(ccName);
+        const classCCName = Utils.toPascalCase(ccName);
+        ccName = Utils.toCamelCase(ccName);
 
-        this.rootPackage = new PackageModel(ccName, LevelEnum.PACKAGE, projectName,
+        this.rootPackage = new PackageModel(ccName, classCCName, LevelEnum.PACKAGE, projectName,
             [
                 {
                     name: 'clean',
@@ -39,7 +42,7 @@ export class PackageStructureCompiler {
                 },
                 {
                     name: 'client:generate',
-                    value: `generate-controller-interface -c ${className}Controller`
+                    value: `generate-controller-interface -c ${classCCName}Controller`
                 }
             ], [
                 {
@@ -62,6 +65,9 @@ export class PackageStructureCompiler {
                 name: 'rimraf',
                 value: '^2.6.2'
             }, {
+                name: 'ts-node',
+                value: '^8.0.2'
+            }, {
                 name: 'mocha',
                 value: '^5.0.3'
             }, {
@@ -77,12 +83,13 @@ export class PackageStructureCompiler {
             ]);
 
         this.rootTsConfig = new TsConfigModel(ccName, LevelEnum.PACKAGE, projectName);
-        this.model = new ModelModel(ccName, ccName, projectName);
-        this.controller = new ControllerModel(ccName, ccName, projectName);
+        this.model = new ModelModel(ccName, ccName, projectName, classCCName);
+        this.test = new TestModel(ccName, ccName, projectName, classCCName);
+        this.controller = new ControllerModel(ccName, ccName, projectName, classCCName);
         this.index = new IndexModel(ccName, ccName, projectName);
 
-        this.ccProfileOrg1 = new ChaincodeProfileModel(ccName, 'org1', projectName);
-        this.ccProfileOrg2 = new ChaincodeProfileModel(ccName, 'org2', projectName);
+        this.ccProfileOrg1 = new ChaincodeProfileModel(ccName, 'org1', projectName, classCCName);
+        this.ccProfileOrg2 = new ChaincodeProfileModel(ccName, 'org2', projectName, classCCName);
     }
 
     /**
@@ -96,10 +103,11 @@ export class PackageStructureCompiler {
                     this.rootPackage.save(),
                     this.rootTsConfig.save(),
                     this.model.save(),
+                    this.test.save(),
                     this.controller.save(),
                     this.index.save(),
                     this.ccProfileOrg1.save(),
-                    this.ccProfileOrg2.save(),                    
+                    this.ccProfileOrg2.save(),
                 ]);
             })
             .catch((ex) => {

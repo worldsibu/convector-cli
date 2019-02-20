@@ -15,7 +15,8 @@ export class ChaincodeProfileModel extends SmartModel {
     constructor(
         public name: string,
         public orgName: string,
-        public projectName?: string) {
+        public projectName?: string,
+        public classCCName?: string) {
         super(name, projectName);
     }
 
@@ -26,12 +27,12 @@ export class ChaincodeProfileModel extends SmartModel {
 
     /** Save to disk. */
     async save() {
-        await SysWrapper.createFileFromTemplate(
+        await SysWrapper.createFileFromTemplatePath(
             this.filePath,
             {
                 org: this.orgName,
                 chaincodeFolder: `${this.name}-cc`,
-                className: Utils.toPascalCase(this.name),
+                className: this.classCCName,
                 root: join(require('os').homedir(), `/hyperledger-fabric-network`)
             }, this.templateFile);
     }
