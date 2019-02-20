@@ -11,7 +11,7 @@ export class LernaModel  {
         throw new Error('Method not implemented.');
     }
     async save() {
-        await SysWrapper.createFileFromTemplate(
+        await SysWrapper.createFileFromTemplatePath(
             this.filePath,
             {
             }, this.templateFile);

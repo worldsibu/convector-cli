@@ -24,9 +24,27 @@ export module SysWrapper {
    * Renders to disk a file from a template
    * @param filePath Destination path
    * @param contents Contents in JSON format
-   * @param templatePath Location of the template
+   * @param templateContents Template in plain text
    */
-  export function createFileFromTemplate(filePath: string, contents: any, templatePath: string): Promise<void | {}> {
+  export function createFileFromTemplate(filePath: string, contents: any, templateContents: string): Promise<void | {}> {
+    return renderTemplateFromContent(templateContents, contents).then((compiledContents: string) => {
+      return new Promise(function (fulfilled, rejected) {
+        try {
+          write(filePath, compiledContents, fulfilled);
+        } catch (ex) {
+          rejected(ex);
+        }
+      }).then(() => { showSuccessInfo(filePath); });
+    });
+  }
+
+  /**
+   * Renders to disk a file from a template path
+   * @param filePath Destination path
+   * @param contents Contents in JSON format
+   * @param templatePath Path location of the template
+   */
+  export function createFileFromTemplatePath(filePath: string, contents: any, templatePath: string): Promise<void | {}> {
     return renderTemplateFromFile(templatePath, contents).then((compiledContents: string) => {
       return new Promise(function (fulfilled, rejected) {
         try {

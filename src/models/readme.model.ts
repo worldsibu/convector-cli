@@ -23,7 +23,20 @@ export class ReadmeModel extends SmartModel {
 This awesome project was created automatically with <a href="https://github.com/worldsibu/convector-cli" target="_blank">Convector CLI</a>.
 By default new Convector projects locally include <a href="https://github.com/worldsibu/hurley">Hurley</a> to manage your development environment seamlessly, so you don't have to worry about setting up the network and hard ways to install  and upgrade your chaincodes.
 
-You may very well install **Hurley** globally for easier and more flexible management. 
+## Start
+
+\`\`\`
+# Install dependencies - From the root of your project
+npm i
+# Create a new development blockchain network  - From the root of your project
+npm run env:restart
+# Install your smart contract
+npm run cc:start -- ${this.name}
+\`\`\`
+
+## About Hurley
+
+You may as well install **Hurley** globally for easier and more flexible management. 
 
 \`npm i -g @worldsibu/hurley\`
 
@@ -89,6 +102,12 @@ npm run cc:start -- ${this.name}
 
 # Upgrade your existing chaincode - From the root of your project
 npm run cc:upgrade -- ${this.name} 1.2
+\`\`\`
+
+## Tests
+
+\`\`\`
+npm run test
 \`\`\`
 
 > Check all the information to work with Convector <a href="https://worldsibu.github.io/convector" target="_blank">in the DOCS site</a>.
