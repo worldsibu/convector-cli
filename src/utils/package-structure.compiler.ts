@@ -53,10 +53,10 @@ export class PackageStructureCompiler {
                     value: '^0.1.12'
                 }, {
                     name: '@worldsibu/convector-core-model',
-                    value: '^1.2.0'
+                    value: '~1.2.0'
                 }, {
                     name: '@worldsibu/convector-core-controller',
-                    value: '^1.2.0'
+                    value: '~1.2.0'
                 }
             ], [{
                 name: '@types/node',
