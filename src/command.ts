@@ -53,4 +53,7 @@ updateNotifier({
     updateCheckInterval: 1000 * 60
 }).notify();
 
+program
+    .version(pkg.version);
+
 program.parse(process.argv);
