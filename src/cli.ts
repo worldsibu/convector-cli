@@ -31,7 +31,7 @@ export class CLI {
     analytics: Analytics;
 
     /**
-     * 
+     *
      * @param name Project Name
      * @param chaincode File Name
      */
@@ -59,7 +59,7 @@ export class CLI {
 
     public async generateModel() {
         const classCCName = Utils.toPascalCase(this.chaincode);
-        let model = new ModelModel(this.name, this.chaincode, classCCName, null, false);
+        let model = new ModelModel(this.name, this.chaincode, null, null, false);
         await model.save();
 
         let newIndex = new IndexModel(this.name, this.chaincode, null);
