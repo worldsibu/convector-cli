@@ -46,6 +46,16 @@ export class ProjectStructureCompiler {
                 value: 'f() { npm run cc:package -- $1 org1; hurl upgrade $1 node $2  -P ./chaincode-$1; }; f'
             },
             {
+                name: 'cc:start:debug',
+                // tslint:disable-next-line:max-line-length
+                value: 'f() { npm run cc:package -- $1 org1; npm run cc:install:debug $1; }; f'
+            },
+            {
+                name: 'cc:install:debug',
+                // tslint:disable-next-line:max-line-length
+                value: 'f() { hurl install $1 node -P ./chaincode-$1 --debug; }; f'
+            },
+            {
                 name: '===================INTERNALS===================',
                 value: '===================NO NEED TO CALL THEM DIRECTLY==================='
             }, {
