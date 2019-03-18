@@ -87,9 +87,6 @@ export class ProjectStructureCompiler {
                 }, {
                     name: 'npm-run-all',
                     value: '^4.1.5'
-                }, {
-                    name: '@worldsibu/hurley',
-                    value: '^0.5.0'
                 }
             ]);
         this.rootLerna = new LernaModel(projectName, projectName);
