@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.1
+
+* New default tasks to debug with Hurley.
+
+## 1.1.0
+
+* Updated to support Hurley 1.0.0 and Convector Smart Contracts 1.3.0.
+
 ## 1.0.6
 
 * Now a default test file is created for the default chaincode when creating a new project. It's a reference/starting point. Also includes all the plumbing to run `npm run test`. #23
