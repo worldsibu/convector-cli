@@ -30,7 +30,7 @@ export class PackageStructureCompiler {
                 },
                 {
                     name: 'build',
-                    value: 'npm run clean && npm run client:generate && tsc'
+                    value: 'npm run clean && tsc'
                 },
                 {
                     name: 'prepare',
@@ -39,10 +39,6 @@ export class PackageStructureCompiler {
                 {
                     name: 'test',
                     value: 'npm run build && mocha -r ts-node/register tests/*.spec.ts --reporter spec'
-                },
-                {
-                    name: 'client:generate',
-                    value: `generate-controller-interface -c ${classCCName}Controller`
                 }
             ], [
                 {
@@ -52,15 +48,18 @@ export class PackageStructureCompiler {
                     name: 'reflect-metadata',
                     value: '^0.1.12'
                 }, {
-                    name: '@worldsibu/convector-core-model',
-                    value: '^1.2.0'
+                    name: '@worldsibu/convector-core',
+                    value: '~1.3.0'
                 }, {
-                    name: '@worldsibu/convector-core-controller',
-                    value: '^1.2.0'
+                    name: '@worldsibu/convector-platform-fabric',
+                    value: '~1.3.0'
                 }
             ], [{
                 name: '@types/node',
                 value: '^10.12.5'
+            }, {
+                name: '@worldsibu/convector-storage-couchdb',
+                value: '~1.3.0'
             }, {
                 name: 'rimraf',
                 value: '^2.6.2'

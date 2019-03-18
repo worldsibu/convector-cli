@@ -81,6 +81,8 @@ hurl new
 npm run cc:package -- ${this.name} org1
 # Install to your blockchain - From the root of your project
 hurl install ${this.name} node -P ./chaincode-${this.name}
+# Install in debug mode, this will run the chaincode server locally so you can debug
+hurl install ${this.name} node -P ./chaincode-${this.name} --debug
 
 # Upgrade your existing chaincode - From the root of your project
 hurl upgrade ${this.name} node 1.2 -P ./chaincode-${this.name}

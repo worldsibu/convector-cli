@@ -34,44 +34,43 @@ import { join } from 'path';
 import { expect } from 'chai';
 import * as uuid from 'uuid/v4';
 import { MockControllerAdapter } from '@worldsibu/convector-adapter-mock';
+import { ClientFactory, ConvectorControllerClient } from '@worldsibu/convector-core';
 import 'mocha';
 
-import { ${this.classCCName} } from '../src/${this.name}.model';
-import { ${this.classCCName}ControllerClient } from '../client';
+import { ${this.classCCName}, ${this.classCCName}Controller } from '../src';
 
 describe('${this.classCCName}', () => {
-    let modelSample: ${this.classCCName};
-    let adapter: MockControllerAdapter;
-    let ${this.name}Ctrl: ${this.classCCName}ControllerClient;
+  let adapter: MockControllerAdapter;
+  let ${this.name}Ctrl: ConvectorControllerClient<${this.classCCName}Controller>;
+  
+  before(async () => {
+    // Mocks the blockchain execution environment
+    adapter = new MockControllerAdapter();
+    ${this.name}Ctrl = ClientFactory(${this.classCCName}Controller, adapter);
 
-    before(async () => {
-        const now = new Date().getTime();
-        modelSample = new ${this.classCCName}();
-        modelSample.id = uuid();
-        modelSample.name = 'Test';
-        modelSample.created = now;
-        modelSample.modified = now;
-        // Mocks the blockchain execution environment
-        adapter = new MockControllerAdapter();
-        ${this.name}Ctrl = new ${this.classCCName}ControllerClient(adapter);
-
-        await adapter.init([
-            {
-            version: '*',
-            controller: '${this.classCCName}Controller',
-            name: join(__dirname, '..')
-            }
-        ]);
-
+    await adapter.init([
+      {
+        version: '*',
+        controller: '${this.classCCName}Controller',
+        name: join(__dirname, '..')
+      }
+    ]);
+  });
+  
+  it('should create a default model', async () => {
+    const modelSample = new ${this.classCCName}({
+      id: uuid(),
+      name: 'Test',
+      created: Date.now(),
+      modified: Date.now()
     });
 
-    it('should create a default model', async () => {
     await ${this.name}Ctrl.create(modelSample);
-
+  
     const justSavedModel = await adapter.getById<${this.classCCName}>(modelSample.id);
-
+  
     expect(justSavedModel.id).to.exist;
-    });
+  });
 });`);
     }
 

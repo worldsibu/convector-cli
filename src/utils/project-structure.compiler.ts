@@ -71,13 +71,13 @@ export class ProjectStructureCompiler {
                     value: '^3.13.0'
                 }, {
                     name: '@worldsibu/convector-adapter-mock',
-                    value: '^1.2.0'
+                    value: '~1.3.0'
                 }, {
-                    name: '@worldsibu/convector-tool-chaincode-manager',
-                    value: '^1.2.0'
+                    name: '@worldsibu/convector-platform-fabric',
+                    value: '~1.3.0'
                 }, {
-                    name: '@worldsibu/convector-tool-dev-env',
-                    value: '^1.2.0'
+                    name: '@worldsibu/hurley',
+                    value: '~1.0.0'
                 }, {
                     name: 'fabric-ca-client',
                     value: '~1.4.0'
