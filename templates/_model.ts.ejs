@@ -18,7 +18,7 @@ export abstract class TimeRecord<T extends TimeRecord<any>> extends ConvectorMod
   public modified: number;
 }
 
-export class <%= className %> extends TimeRecord<<%= className %>> {
+export class <%= name %> extends TimeRecord<<%= name %>> {
   @ReadOnly()
   @Required()
   public readonly type = 'io.worldsibu.<%= name %>';
