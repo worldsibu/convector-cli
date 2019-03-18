@@ -48,6 +48,8 @@ program
         }
     });
 
+program.version(pkg.version);
+
 updateNotifier({
     pkg,
     updateCheckInterval: 1000 * 60

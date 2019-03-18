@@ -7,15 +7,7 @@ import {
   Validate
 } from '@worldsibu/convector-core-model';
 
-export class <%= className %> extends ConvectorModel<<%= className %>> {
-  @ReadOnly()
-  @Required()
-  public readonly type = 'io.worldsibu.<%= name %>';
-
-  @Required()
-  @Validate(yup.string())
-  public name: string;
-
+export abstract class TimeRecord<T extends TimeRecord<any>> extends ConvectorModel<T> {
   @ReadOnly()
   @Required()
   @Validate(yup.number())
@@ -24,4 +16,14 @@ export class <%= className %> extends ConvectorModel<<%= className %>> {
   @Required()
   @Validate(yup.number())
   public modified: number;
+}
+
+export class <%= className %> extends TimeRecord<<%= className %>> {
+  @ReadOnly()
+  @Required()
+  public readonly type = 'io.worldsibu.<%= name %>';
+
+  @Required()
+  @Validate(yup.string())
+  public name: string;
 }
