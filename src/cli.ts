@@ -59,7 +59,7 @@ export class CLI {
 
     public async generateModel() {
         const classCCName = Utils.toPascalCase(this.chaincode);
-        let model = new ModelModel(this.name, this.chaincode, null, null, false);
+        let model = new ModelModel(this.name, this.chaincode, null, classCCName, false);
         await model.save();
 
         let newIndex = new IndexModel(this.name, this.chaincode, null);
@@ -70,7 +70,7 @@ export class CLI {
 
     public async generateController() {
         const classCCName = Utils.toPascalCase(this.chaincode);
-        let ctrl = new ControllerModel(this.name, this.chaincode, classCCName, null, false);
+        let ctrl = new ControllerModel(this.name, this.chaincode, null, classCCName, false);
         await ctrl.save();
         let newIndex = new IndexModel(this.name, this.chaincode, null);
         await newIndex.recompile();
