@@ -51,11 +51,6 @@ export class ProjectStructureCompiler {
                 value: 'f() { npm run cc:package -- $1 org1; npm run cc:install:debug $1; }; f'
             },
             {
-                name: 'cc:install:debug',
-                // tslint:disable-next-line:max-line-length
-                value: 'f() { hurl install $1 node -P ./chaincode-$1 --debug; }; f'
-            },
-            {
                 name: '===================INTERNALS===================',
                 value: '===================NO NEED TO CALL THEM DIRECTLY==================='
             }, {
@@ -68,10 +63,15 @@ export class ProjectStructureCompiler {
             {
                 name: 'cc:package',
                 // tslint:disable-next-line:max-line-length
-                value: 'f() { npm run lerna:build; chaincode-manager --config ./$2.$1.config.json --output ./chaincode-$1 package; }; f'
+                value: 'f() { npm run lerna:build; chaincode-manager --update --config ./$2.$1.config.json --output ./chaincode-$1 package; }; f'
             }, {
                 name: 'cc:install',
                 value: 'f() { hurl install $1 node -P ./chaincode-$1; }; f'
+            },
+            {
+                name: 'cc:install:debug',
+                // tslint:disable-next-line:max-line-length
+                value: 'f() { hurl install $1 node -P ./chaincode-$1 --debug; }; f'
             }, {
                 name: 'lerna:test',
                 value: 'lerna exec npm run test'
