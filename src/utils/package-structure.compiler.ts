@@ -43,7 +43,7 @@ export class PackageStructureCompiler {
             ], [
                 {
                     name: 'yup',
-                    value: '^0.26.6'
+                    value: '0.26.6'
                 }, {
                     name: 'reflect-metadata',
                     value: '^0.1.12'
@@ -56,28 +56,28 @@ export class PackageStructureCompiler {
                 }
             ], [{
                 name: '@types/node',
-                value: '^10.12.5'
+                value: '10.12.5'
             }, {
                 name: '@worldsibu/convector-storage-couchdb',
                 value: '~1.3.0'
             }, {
                 name: 'rimraf',
-                value: '^2.6.2'
+                value: '2.6.2'
             }, {
                 name: 'ts-node',
-                value: '^8.0.2'
+                value: '8.0.2'
             }, {
                 name: 'mocha',
-                value: '^5.0.3'
+                value: '5.0.3'
             }, {
                 name: 'chai',
-                value: '^4.1.2'
+                value: '4.1.2'
             }, {
                 name: '@types/mocha',
-                value: '^5.2.5'
+                value: '5.2.5'
             }, {
                 name: '@types/chai',
-                value: '^4.1.4'
+                value: '4.1.4'
             }
             ]);
 
