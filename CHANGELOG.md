@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.4
+
+* Fix issues with chai dependencies (their upgrade broke `npm i` command).
+
+## 1.2.3
+
+* Debug default task `npm run cc:start:debug`
+
+## 1.2.2
+
+* Simplier model example
+* Fix: variable names references fix
+* Fix: folder names
+
 ## 1.1.1
 
 * New default tasks to debug with Hurley.
