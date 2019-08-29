@@ -1,8 +1,7 @@
-import { IDiskFile } from './IDiskFile.model';
 import { join } from 'path';
 import { SysWrapper } from '../utils/sysWrapper';
 
-export class LernaModel  {
+export class GenericFileModel  {
     constructor(public projectName,
         public name: string) {
 
@@ -21,11 +20,11 @@ export class LernaModel  {
      * Static template file to be used.
      */
     get templateFile() {
-        return join(__dirname, '../../templates/_lerna.json.ejs');
+        return join(__dirname, `../../templates/_${this.name}.ejs`);
     }
 
     /** Actual file Path for the object. */
     get filePath() {
-        return join(process.cwd(), `./${this.projectName}/lerna.json`);
+        return join(process.cwd(), `./${this.projectName}/${this.name}`);
     }
 }

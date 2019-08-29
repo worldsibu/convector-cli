@@ -1,22 +1,21 @@
 import {
     PackageModel, TsConfigModel, LevelEnum, ModelModel,
     ControllerModel, IndexModel, ChaincodeProfileModel,
-    ReadmeModel
+    TestModel, E2EModel
 } from '../models';
 import { SysWrapper } from './sysWrapper';
 import { join } from 'path';
 import { Utils } from '.';
-import { TestModel } from '../models/test.smart-model';
 
 export class PackageStructureCompiler {
     rootPackage: PackageModel;
     rootTsConfig: TsConfigModel;
     model: ModelModel;
     test: TestModel;
+    e2e: E2EModel;
     controller: ControllerModel;
     index: IndexModel;
     ccProfileOrg1: ChaincodeProfileModel;
-    ccProfileOrg2: ChaincodeProfileModel;
 
     constructor(public ccName: string, public projectName?: string) {
         const classCCName = Utils.toPascalCase(ccName);
@@ -38,28 +37,43 @@ export class PackageStructureCompiler {
                 },
                 {
                     name: 'test',
-                    value: 'npm run build && mocha -r ts-node/register tests/*.spec.ts --reporter spec'
+                    value: 'mocha -r ts-node/register tests/*.spec.ts --reporter spec'
+                },
+                {
+                    name: 'test:debug',
+                    value: 'mocha --inspect -r ts-node/register tests/*.spec.ts --reporter spec'
+                },
+                {
+                    name: 'test:e2e',
+                    value: 'mocha -r ts-node/register tests/*.e2e.ts -t 300000 --reporter spec'
+                },
+                {
+                    name: 'test:e2e:debug',
+                    value: 'mocha --inspect -r ts-node/register tests/*.e2e.ts -t 300000 --reporter spec'
                 }
             ], [
                 {
                     name: 'yup',
-                    value: '0.26.6'
+                    value: '0.26.10'
                 }, {
                     name: 'reflect-metadata',
-                    value: '^0.1.12'
+                    value: '~0.1.12'
                 }, {
                     name: '@worldsibu/convector-core',
-                    value: '~1.3.0'
+                    value: '~1.3.6'
                 }, {
                     name: '@worldsibu/convector-platform-fabric',
-                    value: '~1.3.0'
+                    value: '~1.3.6'
                 }
             ], [{
                 name: '@types/node',
                 value: '10.12.5'
             }, {
+                name: '@types/yup',
+                value: '0.26.10'
+            }, {
                 name: '@worldsibu/convector-storage-couchdb',
-                value: '~1.3.0'
+                value: '~1.3.6'
             }, {
                 name: 'rimraf',
                 value: '2.6.2'
@@ -73,6 +87,9 @@ export class PackageStructureCompiler {
                 name: 'chai',
                 value: '4.1.2'
             }, {
+                name: 'typescript',
+                value: '2.9.2'
+            }, {
                 name: '@types/mocha',
                 value: '5.2.5'
             }, {
@@ -84,11 +101,11 @@ export class PackageStructureCompiler {
         this.rootTsConfig = new TsConfigModel(ccName, LevelEnum.PACKAGE, projectName);
         this.model = new ModelModel(ccName, ccName, projectName, classCCName);
         this.test = new TestModel(ccName, ccName, projectName, classCCName);
+        this.e2e = new E2EModel(ccName, ccName, projectName, classCCName);
         this.controller = new ControllerModel(ccName, ccName, projectName, classCCName);
         this.index = new IndexModel(ccName, ccName, projectName);
 
-        this.ccProfileOrg1 = new ChaincodeProfileModel(ccName, 'org1', projectName, classCCName);
-        this.ccProfileOrg2 = new ChaincodeProfileModel(ccName, 'org2', projectName, classCCName);
+        this.ccProfileOrg1 = new ChaincodeProfileModel(ccName, projectName, classCCName);
     }
 
     /**
@@ -103,10 +120,10 @@ export class PackageStructureCompiler {
                     this.rootTsConfig.save(),
                     this.model.save(),
                     this.test.save(),
+                    this.e2e.save(),
                     this.controller.save(),
                     this.index.save(),
                     this.ccProfileOrg1.save(),
-                    this.ccProfileOrg2.save(),
                 ]);
             })
             .catch((ex) => {

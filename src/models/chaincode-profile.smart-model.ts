@@ -1,9 +1,6 @@
-import { PairString, LevelEnum } from '.';
 import { join } from 'path';
 import { SysWrapper } from '../utils/sysWrapper';
-import { IDiskFile } from './IDiskFile.model';
 import { SmartModel } from './smartModel';
-import { Utils } from '../utils';
 
 export class ChaincodeProfileModel extends SmartModel {
     /**
@@ -14,7 +11,6 @@ export class ChaincodeProfileModel extends SmartModel {
      */
     constructor(
         public name: string,
-        public orgName: string,
         public projectName?: string,
         public classCCName?: string) {
         super(name, projectName);
@@ -30,10 +26,8 @@ export class ChaincodeProfileModel extends SmartModel {
         await SysWrapper.createFileFromTemplatePath(
             this.filePath,
             {
-                org: this.orgName,
                 chaincodeFolder: `${this.name}-cc`,
-                className: this.classCCName,
-                root: join(require('os').homedir(), `/hyperledger-fabric-network`)
+                className: this.classCCName
             }, this.templateFile);
     }
 
@@ -46,6 +40,6 @@ export class ChaincodeProfileModel extends SmartModel {
 
     /** Actual file Path for the object. */
     get filePath() {
-        return `${this.projectRoot}/${this.orgName}.${this.name}.config.json`;
+        return `${this.projectRoot}/${this.name}.config.json`;
     }
 }
