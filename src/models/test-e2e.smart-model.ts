@@ -4,7 +4,7 @@ import { SmartModel } from './smartModel';
 import { Utils } from '../utils';
 
 /** Test compiler object. */
-export class TestModel extends SmartModel {
+export class E2EModel extends SmartModel {
 
     /**
      * 
@@ -30,35 +30,47 @@ export class TestModel extends SmartModel {
         await SysWrapper.createFile(
             this.filePath,
             `// tslint:disable:no-unused-expression
-import { join } from 'path';
 import { expect } from 'chai';
 import * as uuid from 'uuid/v4';
-import { MockControllerAdapter } from '@worldsibu/convector-adapter-mock';
-import { ClientFactory, ConvectorControllerClient } from '@worldsibu/convector-core';
 import 'mocha';
+
+import { CouchDBStorage } from '@worldsibu/convector-storage-couchdb';
+import { FabricControllerAdapter } from '@worldsibu/convector-platform-fabric';
+import { BaseStorage, ClientFactory, ConvectorControllerClient } from '@worldsibu/convector-core';
 
 import { ${this.classCCName}, ${this.classCCName}Controller } from '../src';
 
 describe('${this.classCCName}', () => {
-  let adapter: MockControllerAdapter;
+  let adapter: FabricControllerAdapter;
   let ${this.name}Ctrl: ConvectorControllerClient<${this.classCCName}Controller>;
-  
+
   before(async () => {
-    // Mocks the blockchain execution environment
-    adapter = new MockControllerAdapter();
-    ${this.name}Ctrl = ClientFactory(${this.classCCName}Controller, adapter);
+      adapter = new FabricControllerAdapter({
+        skipInit: true,
+        txTimeout: 300000,
+        user: 'user1',
+        channel: 'ch1',
+        chaincode: '${this.chaincodeName}',
+        keyStore: '$HOME/hyperledger-fabric-network/.hfc-org1',
+        networkProfile: '$HOME/hyperledger-fabric-network/network-profiles/org1.network-profile.yaml',
+        userMspPath: '$HOME/hyperledger-fabric-network/artifacts/crypto-config/peerOrganizations/org1.hurley.lab/users/User1@org1.hurley.lab/msp',
+        userMsp: 'org1MSP'
+      });
+      ${this.name}Ctrl = ClientFactory(${this.classCCName}Controller, adapter);
+      await adapter.init(true);
 
-    await adapter.init([
-      {
-        version: '*',
-        controller: '${this.classCCName}Controller',
-        name: join(__dirname, '..')
-      }
-    ]);
-
-    adapter.addUser('Test');
+      BaseStorage.current = new CouchDBStorage({
+        host: 'localhost',
+        protocol: 'http',
+        port: '5084'
+      }, 'ch1_${this.chaincodeName}');
   });
-  
+
+  after(() => {
+    // Close the event listeners
+    adapter.close();
+  });
+
   it('should create a default model', async () => {
     const modelSample = new ${this.classCCName}({
       id: uuid(),
@@ -67,10 +79,9 @@ describe('${this.classCCName}', () => {
       modified: Date.now()
     });
 
-    await ${this.name}Ctrl.$withUser('Test').create(modelSample);
-  
-    const justSavedModel = await adapter.getById<${this.classCCName}>(modelSample.id);
-  
+    await ${this.name}Ctrl.create(modelSample);
+
+    const justSavedModel = await ${this.classCCName}.getOne(modelSample.id);
     expect(justSavedModel.id).to.exist;
   });
 });`);
@@ -84,7 +95,7 @@ describe('${this.classCCName}', () => {
     /** Actual file Path for the object. */
     get filePath() {
         if (!this.ignoreConvention) {
-            return `${this.projectRoot}/packages/${this.chaincodeName}-cc/tests/${this.name}.spec.ts`;
+            return `${this.projectRoot}/packages/${this.chaincodeName}-cc/tests/${this.name}.e2e.ts`;
         } else {
             return join(process.cwd(), `${this.name}.spec.ts`);
         }

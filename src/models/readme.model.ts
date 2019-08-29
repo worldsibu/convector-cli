@@ -115,11 +115,11 @@ npm run cc:upgrade -- ${this.name} 1.2
 npm run test
 \`\`\`
 
-> Check all the information to work with Convector <a href="https://worldsibu.github.io/convector" target="_blank">in the DOCS site</a>.
+> Check all the information to work with Convector <a href="https://docs.covalentx.com/convector" target="_blank">in the DOCS site</a>.
 
 ## Collaborate to the Convector Suite projects
 
-* <a href="https://discord.gg/twRwpWt" target="_blank">Discord chat with the community</a>
+* <a href="https://community.covalentx.com" target="_blank">Discord chat with the community</a>
 * <a href="https://github.com/worldsibu" target="_blank">Convector projects</a>
 `);
     }
