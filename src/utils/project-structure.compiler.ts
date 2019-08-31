@@ -92,7 +92,7 @@ export class ProjectStructureCompiler {
                     value: '~1.3.6'
                 }, {
                     name: '@worldsibu/hurley',
-                    value: '~1.0.0'
+                    value: '~1.1.1'
                 }, {
                     name: 'fabric-ca-client',
                     value: '~1.4.0'
